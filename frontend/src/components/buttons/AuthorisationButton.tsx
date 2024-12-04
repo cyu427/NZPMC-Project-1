@@ -28,11 +28,11 @@ const whiteButtonStyle = {
     },
 };
 
-interface NavButtonProps {
+interface AuthorisationButtonProps {
     buttonType: 'register' | 'signin' | 'signout';
 }
 
-const NavButton: React.FC<NavButtonProps> = ({ buttonType }) => {
+const AuthorisationButton: React.FC<AuthorisationButtonProps> = ({ buttonType }) => {
     // Conditionally apply the styles based on the buttonType
     let buttonStyle = {};
 
@@ -57,4 +57,4 @@ const NavButton: React.FC<NavButtonProps> = ({ buttonType }) => {
     );
 };
 
-export default NavButton;
+export default AuthorisationButton;

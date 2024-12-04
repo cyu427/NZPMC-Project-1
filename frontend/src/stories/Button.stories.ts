@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import NavButton from "../components/buttons/NavButton";
+import AuthorisationButton from "../components/buttons/AuthorisationButton";
 
-const meta: Meta<typeof NavButton> = {
+const meta: Meta<typeof AuthorisationButton> = {
     title: "NavButton",
-    component: NavButton,
+    component: AuthorisationButton,
     parameters: {
         layout:"centered",
       },
-} satisfies Meta<typeof NavButton>;
+} satisfies Meta<typeof AuthorisationButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
