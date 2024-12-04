@@ -6,6 +6,8 @@ const templateButtonStyle = {
     textTransform: 'none',
     fontSize: '16px',
     padding: '7px 15px',
+    minWidth: '100px',
+    height: '40px',
 };
 
 const blueButtonStyle = {

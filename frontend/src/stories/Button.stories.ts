@@ -18,6 +18,12 @@ export const Basic: Story = {
     }
 }
 
+export const Register: Story = {
+    args: { 
+        buttonType: "register" 
+    }
+}
+
 export const Signin: Story = {
     args: { buttonType: "signin" }
 }
