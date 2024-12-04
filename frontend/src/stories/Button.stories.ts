@@ -13,21 +13,49 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-    args: { 
-        buttonType: "register" 
+    args: {
+        label: "Register",
+        buttonType: "nav",
+        buttonColor: "blue"
     }
 }
 
-export const Register: Story = {
-    args: { 
-        buttonType: "register" 
+export const NavRegister: Story = {
+    args: {
+        label: "Register",
+        buttonType: "nav",
+        buttonColor: "blue"
     }
 }
 
-export const Signin: Story = {
-    args: { buttonType: "signin" }
+export const NavSignOut: Story = {
+    args: {
+        label: "Sign out",
+        buttonType: "nav",
+        buttonColor: "blue"
+    }
 }
 
-export const Signout: Story = {
-    args: { buttonType: "signout" }
+export const NavSignin: Story = {
+    args: {
+        label: "Sign in",
+        buttonType: "nav",
+        buttonColor: "white"
+    }
+}
+
+export const LandingSignin: Story = {
+    args: {
+        label: "Sign in",
+        buttonType: "landing",
+        buttonColor: "white"
+    }
+}
+
+export const LandingRegister: Story = {
+    args: {
+        label: "Register",
+        buttonType: "landing",
+        buttonColor: "blue"
+    }
 }

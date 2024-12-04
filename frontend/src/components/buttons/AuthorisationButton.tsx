@@ -1,13 +1,22 @@
 import React from 'react';
 import { Button } from '@mui/material';
 
-const templateButtonStyle = {
+const navButtonStyle = {
     borderRadius: 100,
     textTransform: 'none',
     fontSize: '16px',
     padding: '7px 15px',
     minWidth: '100px',
     height: '40px',
+};
+
+const landingButtonStyle = {
+    borderRadius: 100,
+    textTransform: 'none',
+    fontSize: '20px',
+    padding: '27px 48px',
+    minWidth: '180px',
+    height: '100px',
 };
 
 const blueButtonStyle = {
@@ -31,29 +40,35 @@ const whiteButtonStyle = {
 };
 
 interface AuthorisationButtonProps {
-    buttonType: 'register' | 'signin' | 'signout';
+    label: string;
+    buttonType: 'nav' | 'landing';
+    buttonColor: 'blue' | 'white';
 }
 
-const AuthorisationButton: React.FC<AuthorisationButtonProps> = ({ buttonType }) => {
+const AuthorisationButton: React.FC<AuthorisationButtonProps> = ({ label, buttonType, buttonColor }) => {
     // Conditionally apply the styles based on the buttonType
-    let buttonStyle = {};
-
+    let buttonTypeStyle;
     switch (buttonType) {
-        case 'register':
-            buttonStyle = { ...templateButtonStyle, ...blueButtonStyle };
+        case 'nav':
+            buttonTypeStyle = {...navButtonStyle};
             break;
-        case 'signin':
-            buttonStyle = { ...templateButtonStyle, ...whiteButtonStyle };
+        case 'landing':
+            buttonTypeStyle = {...landingButtonStyle}
+    }
+
+    let buttonColorStyle;
+    switch (buttonColor) {
+        case 'blue':
+            buttonColorStyle = {...blueButtonStyle};
             break;
-        case 'signout':
-            buttonStyle = { ...templateButtonStyle, ...whiteButtonStyle };
-            break;
+        case 'white':
+            buttonColorStyle = {...whiteButtonStyle}
     }
 
     return (
         <div>
-            <Button type="submit" sx={buttonStyle}>
-                {buttonType === 'register' ? 'Register' : buttonType === 'signin' ? 'Sign In' : 'Sign Out'}
+            <Button type="submit" sx={{ ...buttonTypeStyle, ...buttonColorStyle }}>
+                {label}
             </Button>
         </div>
     );
