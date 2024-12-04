@@ -10,26 +10,36 @@ import DateTimeSection from './DateTimeSection';
 import LocationSection from './LocationSection';
 import CostSection from './CostSection';
 
-export default function MediaCard() {
+interface EventCardProps {
+  title: string;
+  date: string;
+  location: string;
+  cost: string;
+  primaryButtonLabel: string,
+  secondaryButtonLabel: string,
+}
+
+export default function EventCard({ title, date, location, cost, primaryButtonLabel, secondaryButtonLabel }: EventCardProps) {
   return (
-    <Card sx={{ maxWidth: 345, border: '1px solid black'}}>
+    <Card sx={{ width: 250, height: 400, border: '1px solid black'}}>
       <CardMedia
         sx={{ height: 140 }}
         image="/studying.jpg"  
-        title="green iguana"
       />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div" align="center">
-          NZPMC 2024 Round 1
+          {title}
         </Typography>
-        <DateTimeSection dateTime="30 Dec, 1pm" />
-        <LocationSection location="Location: University of Auckland" />
-        <CostSection cost="Cost: 13.50" />
+        <Box>
+          <DateTimeSection dateTime= {date} />
+          <LocationSection location= {location} />
+          <CostSection cost= {cost}/>
+        </Box>
       </CardContent>
-      <CardActions sx={{ pt: 0, pb: 3 }}>
+      <CardActions sx={{ pt: 0 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <StandardButton label="More Info" buttonColor="white" />
-            <StandardButton label="Sign in to Join" buttonColor="blue" />
+            <StandardButton label={primaryButtonLabel} buttonColor="white" / >
+            <StandardButton label={secondaryButtonLabel} buttonColor="blue" />
         </Box>
       </CardActions>
     </Card>
