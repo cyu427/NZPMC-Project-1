@@ -1,22 +1,15 @@
 import React from 'react';
 import { Button } from '@mui/material';
 
-const navButtonStyle = {
+const templateButtonStyle = {
     borderRadius: 100,
     textTransform: 'none',
-    fontSize: '16px',
-    padding: '7px 15px',
-    width: '100px',
+    fontSize: '13px',
+    padding: '9px 10px',
+    width: '120px',
     height: '40px',
-};
-
-const landingButtonStyle = {
-    borderRadius: 100,
-    textTransform: 'none',
-    fontSize: '20px',
-    padding: '27px 48px',
-    minWidth: '180px',
-    height: '100px',
+    border: '1px solid black',
+    fontWeight: '550'
 };
 
 const blueButtonStyle = {
@@ -32,30 +25,19 @@ const blueButtonStyle = {
 const whiteButtonStyle = {
     backgroundColor: 'white',
     color: '#285DE5',
-    border: '2px solid #285DE5',
     '&:hover': {
         backgroundColor: '#1C4BB9',
         color: 'white',
     },
 };
 
-interface AuthorisationButtonProps {
+interface StandardButtonProps {
     label: string;
-    buttonType: 'nav' | 'landing';
     buttonColor: 'blue' | 'white';
 }
 
-const AuthorisationButton: React.FC<AuthorisationButtonProps> = ({ label, buttonType, buttonColor }) => {
+const AuthorisationButton: React.FC<StandardButtonProps> = ({ label, buttonColor }) => {
     // Conditionally apply the styles based on the buttonType
-    let buttonTypeStyle;
-    switch (buttonType) {
-        case 'nav':
-            buttonTypeStyle = {...navButtonStyle};
-            break;
-        case 'landing':
-            buttonTypeStyle = {...landingButtonStyle}
-    }
-
     let buttonColorStyle;
     switch (buttonColor) {
         case 'blue':
@@ -67,7 +49,7 @@ const AuthorisationButton: React.FC<AuthorisationButtonProps> = ({ label, button
 
     return (
         <div>
-            <Button type="submit" sx={{ ...buttonTypeStyle, ...buttonColorStyle }}>
+            <Button type="submit" sx={{...templateButtonStyle,  ...buttonColorStyle}}>
                 {label}
             </Button>
         </div>
