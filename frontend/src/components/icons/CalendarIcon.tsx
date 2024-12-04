@@ -4,8 +4,8 @@ import { IconButton } from '@mui/material';
 const CalendarIcon: React.FC = () => {
     return (
         <div>
-            <IconButton sx={{ fontSize: 30 }}> {/* Adjust the size here */}
-                <CalendarMonthIcon sx={{ fontSize: 'inherit' }} />
+            <IconButton sx={{ pointerEvents: 'none' }}> {/* Adjust the size here */}
+                <CalendarMonthIcon sx={{ fontSize: 30, color: 'black' }} />
             </IconButton>
         </div>
     );
