@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ExitIcon from "../components/ExitIcon";
+import LocationIcon from "../../../components/icons/LocationIcon";
 
-const meta: Meta<typeof ExitIcon> = {
-    title: "Exit Icon",
-    component: ExitIcon,
+const meta: Meta<typeof LocationIcon> = {
+    title: "Icon/Location Icon",
+    component: LocationIcon,
     parameters: {
         layout:"centered",
       },

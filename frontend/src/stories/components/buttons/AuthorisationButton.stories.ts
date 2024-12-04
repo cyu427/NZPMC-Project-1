@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import AuthorisationButton from "../components/buttons/AuthorisationButton";
+import AuthorisationButton from "../../../components/buttons/AuthorisationButton";
 
 const meta: Meta<typeof AuthorisationButton> = {
-    title: "Authorisation Button",
+    title: "Buttons/Authorisation",
     component: AuthorisationButton,
     parameters: {
         layout:"centered",

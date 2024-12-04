@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import StandardButton from "../components/buttons/StandardButton";
+import StandardButton from "../../../components/buttons/StandardButton";
 
 const meta: Meta<typeof StandardButton> = {
-    title: "Standard Buttons",
+    title: "Buttons/Standard",
     component: StandardButton,
     parameters: {
         layout:"centered",

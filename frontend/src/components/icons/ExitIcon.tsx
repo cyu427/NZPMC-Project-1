@@ -4,8 +4,8 @@ import { IconButton } from '@mui/material';
 const ExitIcon: React.FC = () => {
     return (
         <div>
-            <IconButton sx={{ fontSize: 30 }}> {/* Adjust the size here */}
-                <CancelIcon sx={{ fontSize: 'inherit' }} />
+            <IconButton> {/* Adjust the size here */}
+                <CancelIcon sx={{ fontSize: 'inherit', color: 'black' }} />
             </IconButton>
         </div>
     );
