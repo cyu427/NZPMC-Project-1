@@ -21,9 +21,9 @@ interface EventCardProps {
 
 export default function EventCard({ title, date, location, cost, primaryButtonLabel, secondaryButtonLabel }: EventCardProps) {
   return (
-    <Card sx={{ width: 250, height: 400, border: '1px solid black'}}>
+    <Card sx={{ width: 250, height: 270, border: '1px solid black'}}>
       <CardMedia
-        sx={{ height: 140 }}
+        sx={{ height: 0 }}
         image="/studying.jpg"  
       />
       <CardContent>
