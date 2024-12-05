@@ -31,9 +31,20 @@ const whiteButtonStyle = {
     },
 };
 
+const yellowButtonStyle = {
+    backgroundColor: '#FCC808',
+    color: '#28242C',
+    border: '2px solid #28242C',
+    '&:hover': {
+        backgroundColor: '#28242C',
+        color: '#FCC808',
+        border: '2px solid #FCC808',
+    },
+};
+
 interface StandardButtonProps {
     label: string;
-    buttonColor: 'blue' | 'white';
+    buttonColor: 'blue' | 'white' | 'yellow';
 }
 
 const AuthorisationButton: React.FC<StandardButtonProps> = ({ label, buttonColor }) => {
@@ -44,7 +55,11 @@ const AuthorisationButton: React.FC<StandardButtonProps> = ({ label, buttonColor
             buttonColorStyle = {...blueButtonStyle};
             break;
         case 'white':
-            buttonColorStyle = {...whiteButtonStyle}
+            buttonColorStyle = {...whiteButtonStyle};
+            break;
+        case 'yellow':
+            buttonColorStyle = {...yellowButtonStyle};
+            break;
     }
 
     return (
