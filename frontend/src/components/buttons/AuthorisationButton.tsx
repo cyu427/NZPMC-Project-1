@@ -16,7 +16,7 @@ const landingButtonStyle = {
     fontSize: '20px',
     padding: '27px 48px',
     minWidth: '180px',
-    height: '100px',
+    height: '80px',
 };
 
 const blueButtonStyle = {
