@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage'
 import LoginForm from './pages/SignInPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SigninPage from './pages/SigninPage'
+import EventsDetailPage from './pages/EventsDetailPage'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -14,7 +15,8 @@ function App() {
     <>
       {/* <RegisterPage/> */}
       {/* <LoginForm/> */}
-      <SigninPage/>
+      {/* <SigninPage/> */}
+      <EventsDetailPage/>
       {/* <ResetPasswordPage/> */}
       {/* <div>
         <a href="https://vite.dev" target="_blank">
