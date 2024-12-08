@@ -45,9 +45,10 @@ const yellowButtonStyle = {
 interface StandardButtonProps {
     label: string;
     buttonColor: 'blue' | 'white' | 'yellow';
+    onClick?: () => void;
 }
 
-const AuthorisationButton: React.FC<StandardButtonProps> = ({ label, buttonColor }) => {
+const StandardButton: React.FC<StandardButtonProps> = ({ label, buttonColor, onClick }) => {
     // Conditionally apply the styles based on the buttonType
     let buttonColorStyle;
     switch (buttonColor) {
@@ -64,11 +65,11 @@ const AuthorisationButton: React.FC<StandardButtonProps> = ({ label, buttonColor
 
     return (
         <div>
-            <Button type="submit" sx={{...templateButtonStyle,  ...buttonColorStyle}}>
+            <Button type="submit" sx={{...templateButtonStyle,  ...buttonColorStyle}} onClick={onClick}>
                 {label}
             </Button>
         </div>
     );
 };
 
-export default AuthorisationButton;
+export default StandardButton;
