@@ -3,6 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import RegisterPage from './pages/RegisterPage'
+import LoginForm from './pages/SIgnInPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -10,6 +12,7 @@ function App() {
   return (
     <>
       <RegisterPage/>
+      {/* <ResetPasswordPage/> */}
       {/* <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
