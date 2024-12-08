@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import StepWrapper from './StepWrapper'
+import RegisterStepWrapper from './RegisterStepWrapper'
 
 const RegisterDialog = () => {
   return (
@@ -21,7 +21,7 @@ const RegisterDialog = () => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <StepWrapper />
+        <RegisterStepWrapper />
       </DialogContent>
     </Dialog>
   )

@@ -1,4 +1,4 @@
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField, Box, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import { educationSchema, EducationFormData } from '../../../schema/registrationSchema'
@@ -16,6 +16,11 @@ const EducationStep = () => {
     setStep(3)
   }
 
+  const homeSchooled = useWatch({
+    control,
+    name: 'homeSchooled',
+  })
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
@@ -32,21 +37,24 @@ const EducationStep = () => {
             </FormControl>
             )}
         />
-        <Controller
+
+        {!homeSchooled && (
+          <Controller
             name="school"
             control={control}
             defaultValue=""
             render={({ field }) => (
-            <TextField
+              <TextField
                 {...field}
                 label="School"
                 fullWidth
                 margin="normal"
                 error={!!errors.school}
                 helperText={errors.school?.message}
-            />
+              />
             )}
-        />
+          />
+        )}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button onClick={() => setStep(1)}>Back</Button>
             <Button type="submit" variant="contained" color="primary">
