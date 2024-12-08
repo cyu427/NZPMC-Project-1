@@ -7,10 +7,17 @@ export const personalInfoSchema = z.object({
 
 export const educationSchema = z.object({
   homeSchooled: z.boolean(),
-  school: z.string().min(2, "School name must be at least 2 characters").optional(),
-}).refine((data) => data.homeSchooled || (!!data.school && data.school.trim().length > 0), {
-  message: "School name is required if not home-schooled",
-  path: ["school"],
+  school: z
+    .string()
+    .min(2, "School name must be at least 2 characters")
+    .optional(),
+}).refine((data) => {
+  if (!data.homeSchooled && !data.school) {
+    return false;
+  }
+  return true;
+}, {
+  path: ["school"], // This points to the school field in errors
 });
 
 

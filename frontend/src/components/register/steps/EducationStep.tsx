@@ -3,11 +3,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField, Box, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import { educationSchema, EducationFormData } from '../../../schema/registrationSchema'
 import { useRegisterContext } from '../../../hooks/useRegisterContext'
+import { useEffect } from 'react'
 
 const EducationStep = () => {
   const { setStep, setFormData } = useRegisterContext()
 
-  const { control, handleSubmit, formState: { errors },} = useForm<EducationFormData>({
+  const { control, handleSubmit, formState: { errors }, setValue} = useForm<EducationFormData>({
     resolver: zodResolver(educationSchema),
   })
 
@@ -20,6 +21,12 @@ const EducationStep = () => {
     control,
     name: 'homeSchooled',
   })
+
+  useEffect(() => {
+    if (homeSchooled) {
+      setValue('school', undefined);
+    }
+  }, [homeSchooled, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
