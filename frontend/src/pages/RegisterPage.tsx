@@ -1,5 +1,3 @@
-// import { SignUpProvider } from '../contexts/SignUpContext'
-// import SignUpDialog from '../components/SignUpDialog'
 import { RegisterProvider } from "../provider/RegisterProvider"
 import RegisterDialog from "../components/register/RegisterDialog"
 

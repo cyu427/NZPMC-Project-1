@@ -1,11 +1,11 @@
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField, Box, Button, Typography } from '@mui/material'
-import { verificationSchema, VerificationFormData } from '../../../schema/registrationSchema'
-import { useRegisterContext } from '../../../hooks/useRegisterContext'
+import { useResetPasswordContext } from '../../../hooks/useResetPasswordContext'
+import { VerificationFormData, verificationSchema } from '../../../schema/resetPasswordSchema'
 
-const VerficationStep = () => {
-  const { setStep, setFormData, formData } = useRegisterContext()
+const ResetPasswordVerification = () => {
+  const { setStep, setFormData, formData } = useResetPasswordContext()
 
   const { control, handleSubmit, formState: { errors },} = useForm<VerificationFormData>({
     resolver: zodResolver(verificationSchema),
@@ -13,15 +13,11 @@ const VerficationStep = () => {
 
   const onSubmit = (data: VerificationFormData) => {
     setFormData((prev) => ({ ...prev, ...data }))
-    console.log('Login data:', formData)
-    setStep(5)
+    setStep(3)
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-            <Typography variant="body1" align="center" gutterBottom>
-              Verify your account
-            </Typography>
             <Typography variant="body2" align="center" color="textSecondary" gutterBottom>
               An 6-digit code has been sent to {formData.email}
             </Typography>
@@ -53,4 +49,4 @@ const VerficationStep = () => {
   )
 }
 
-export default VerficationStep
+export default ResetPasswordVerification

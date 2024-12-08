@@ -1,13 +1,14 @@
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField, Box, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import { educationSchema, EducationFormData } from '../../../schema/registrationSchema'
 import { useRegisterContext } from '../../../hooks/useRegisterContext'
+import { useEffect } from 'react'
 
 const EducationStep = () => {
   const { setStep, setFormData } = useRegisterContext()
 
-  const { control, handleSubmit, formState: { errors },} = useForm<EducationFormData>({
+  const { control, handleSubmit, formState: { errors }, setValue} = useForm<EducationFormData>({
     resolver: zodResolver(educationSchema),
   })
 
@@ -15,6 +16,17 @@ const EducationStep = () => {
     setFormData((prev) => ({ ...prev, ...data }))
     setStep(3)
   }
+
+  const homeSchooled = useWatch({
+    control,
+    name: 'homeSchooled',
+  })
+
+  useEffect(() => {
+    if (homeSchooled) {
+      setValue('school', undefined);
+    }
+  }, [homeSchooled, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -32,21 +44,24 @@ const EducationStep = () => {
             </FormControl>
             )}
         />
-        <Controller
+
+        {!homeSchooled && (
+          <Controller
             name="school"
             control={control}
             defaultValue=""
             render={({ field }) => (
-            <TextField
+              <TextField
                 {...field}
                 label="School"
                 fullWidth
                 margin="normal"
                 error={!!errors.school}
                 helperText={errors.school?.message}
-            />
+              />
             )}
-        />
+          />
+        )}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button onClick={() => setStep(1)}>Back</Button>
             <Button type="submit" variant="contained" color="primary">

@@ -8,7 +8,7 @@ import SuccessStep from './steps/SuccessStep'
 
 const steps = ['Personal Info', 'Education', 'Account', 'Verification', 'Success']
 
-const StepWrapper = () => {
+const RegisterStepWrapper = () => {
   const { step } = useRegisterContext()
 
   const renderStepContent = (step: number) => {
@@ -42,4 +42,4 @@ const StepWrapper = () => {
   )
 }
 
-export default StepWrapper
+export default RegisterStepWrapper

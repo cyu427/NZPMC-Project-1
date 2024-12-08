@@ -3,13 +3,19 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import RegisterPage from './pages/RegisterPage'
+import LoginForm from './pages/SignInPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
+import SigninPage from './pages/SigninPage'
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
     <>
-      <RegisterPage/>
+      {/* <RegisterPage/> */}
+      {/* <LoginForm/> */}
+      <SigninPage/>
+      {/* <ResetPasswordPage/> */}
       {/* <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />

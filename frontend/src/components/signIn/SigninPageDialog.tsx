@@ -1,12 +1,12 @@
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import RegisterStepWrapper from './RegisterStepWrapper'
+import SigninPageWrapper from './SigninPageWrapper'
 
-const RegisterDialog = () => {
+const SigninPageDialog = () => {
   return (
     <Dialog open={true} maxWidth="sm" fullWidth>
       <DialogTitle>
-        Registration
+        Sign in
         <IconButton
           aria-label="close"
           onClick={() => {/* handle close */}}
@@ -21,10 +21,10 @@ const RegisterDialog = () => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <RegisterStepWrapper />
+        <SigninPageWrapper />
       </DialogContent>
     </Dialog>
   )
 }
 
-export default RegisterDialog
+export default SigninPageDialog
