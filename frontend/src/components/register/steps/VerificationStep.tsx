@@ -13,6 +13,7 @@ const VerficationStep = () => {
 
   const onSubmit = (data: VerificationFormData) => {
     setFormData((prev) => ({ ...prev, ...data }))
+    console.log('Login data:', formData)
     setStep(5)
   }
 
