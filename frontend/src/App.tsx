@@ -6,15 +6,18 @@ import RegisterPage from './pages/RegisterPage'
 import LoginForm from './pages/SignInPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SigninPage from './pages/SigninPage'
+import CreateEventGeneralFields from './components/createEvent/CreateEventGeneralFields'
+import EventDescriptionField from './components/createEvent/form/event-description/EventDescription'
 
 function App() {
   // const [count, setCount] = useState(0)
-
   return (
     <>
       {/* <RegisterPage/> */}
       {/* <LoginForm/> */}
-      <SigninPage/>
+      {/* <SigninPage/> */}
+      <CreateEventGeneralFields/>
+      {/* <EventDescriptionField/> */}
       {/* <ResetPasswordPage/> */}
       {/* <div>
         <a href="https://vite.dev" target="_blank">
