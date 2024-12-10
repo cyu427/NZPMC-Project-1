@@ -10,18 +10,26 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     () => localStorage.getItem('isLoggedIn') === 'true'
   );
 
-  const login = () => {
+  const [userId, setUserId] = useState<string | null>(
+    () => localStorage.getItem('userId')
+  );
+
+  const login = (userId: string) => {
     setIsLoggedIn(true);
+    setUserId(userId);
     localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userId', userId);
   };
 
   const logout = () => {
     setIsLoggedIn(false);
+    setUserId(null);
     localStorage.setItem('isLoggedIn', 'false');
+    localStorage.removeItem('userId');
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

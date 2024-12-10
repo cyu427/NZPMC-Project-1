@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Row } from '../schema/tableDataSchema';
+import { Row } from '../schema/formValidation/tableDataSchema';
 
 export const useSearch = (initialRows: Row[]) => {
   const [searchTerm, setSearchTerm] = useState('');

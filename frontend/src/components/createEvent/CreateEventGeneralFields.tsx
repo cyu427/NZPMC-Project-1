@@ -42,7 +42,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button, Card, CardContent, Typography } from '@mui/material'
-import { createEventSchema, CreateEventSchemaFormData } from '../../schema/createEventSchema'
+import { createEventSchema, CreateEventSchemaFormData } from '../../schema/formValidation/createEventSchema'
 import EventNameField from './form/EventNameField'
 import EventLocationField from './form/EventLocationField'
 import EventCostField from './form/EventCostField'

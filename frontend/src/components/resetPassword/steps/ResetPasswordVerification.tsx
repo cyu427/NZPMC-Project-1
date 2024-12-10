@@ -2,7 +2,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField, Box, Button, Typography } from '@mui/material'
 import { useResetPasswordContext } from '../../../hooks/useResetPasswordContext'
-import { VerificationFormData, verificationSchema } from '../../../schema/resetPasswordSchema'
+import { VerificationFormData, verificationSchema } from '../../../schema/formValidation/resetPasswordSchema'
 
 const ResetPasswordVerification = () => {
   const { setStep, setFormData, formData } = useResetPasswordContext()

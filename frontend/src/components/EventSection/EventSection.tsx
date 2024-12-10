@@ -1,55 +1,25 @@
-// import { Box, Typography} from '@mui/material';
+// import React from 'react';
+// import { Box, Typography } from '@mui/material';
 // import Carousel from 'react-material-ui-carousel';
 // import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 // import EventCard from '../cards/Card';
+// import useAuth from '../../hooks/useAuth';
 
 // interface Event {
 //   id: string;
-//   title: string;
+//   name: string;
 //   date: string;
 //   location: string;
 //   cost: string;
 // }
 
-// export default function EventsSection() {
-//   const events: Event[] = [
-//     {
-//       id: '1',
-//       title: 'NZPMC 2024 Round 1',
-//       date: '30 Dec, 1pm',
-//       location: 'University of Auckland',
-//       cost: '13.50',
-//     },
-//     {
-//       id: '2',
-//       title: 'NZPMC 2024 Round 2',
-//       date: '30 Dec, 1pm',
-//       location: 'University of Auckland',
-//       cost: '13.50',
-//     },
-//     {
-//       id: '3',
-//       title: 'NZPMC 2024 Round 3',
-//       date: '30 Dec, 1pm',
-//       location: 'University of Auckland',
-//       cost: '13.50',
-//     },
-//     {
-//       id: '4',
-//       title: 'NZPMC 2024 Round 4',
-//       date: '30 Dec, 1pm',
-//       location: 'University of Auckland',
-//       cost: '13.50',
-//     },
-//     {
-//       id: '5',
-//       title: 'NZPMC 2024 Round 5',
-//       date: '31 Dec, 1pm',
-//       location: 'University of Auckland',
-//       cost: '13.50',
-//     },
-//     // Add more events as needed
-//   ];
+// interface EventsSectionProps {
+//   events: Event[];
+//   title: string;
+// }
+
+// const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
+//   const { isLoggedIn } = useAuth();
 
 //   const chunkEvents = (events: Event[], size: number) => {
 //     const chunks = [];
@@ -74,7 +44,7 @@
 //             textAlign: 'center',
 //           }}
 //         >
-//           Events
+//           {title}
 //         </Typography>
 //         <Carousel
 //           indicators={true}
@@ -87,8 +57,6 @@
 //               backgroundColor: 'rgba(0, 0, 0, 0.5)',
 //               color: 'white',
 //               margin: '0 0px',
-//               // margin: '0 610px',
-
 //               zIndex: 2,
 //             },
 //           }}
@@ -104,12 +72,12 @@
 //               {chunk.map((event) => (
 //                 <EventCard
 //                   key={event.id}
-//                   title={event.title}
+//                   name={event.name}
 //                   date={event.date}
 //                   location={event.location}
 //                   cost={event.cost}
 //                   primaryButtonLabel="More Info"
-//                   secondaryButtonLabel="Sign in to Join"
+//                   secondaryButtonLabel={isLoggedIn ? "Join" : "Sign in to Join"}
 //                 />
 //               ))}
 //             </Box>
@@ -118,17 +86,29 @@
 //       </Box>
 //     </Box>
 //   );
-// }
+// };
+
+// export default EventsSection;
+
 
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import EventCard from '../cards/Card';
+import useAuth from '../../hooks/useAuth';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+
+// Define the mutation function for joining an event
+const joinEvent = async ({ eventId, userId }: { eventId: string, userId: string }) => {
+  const response = await axios.post(`http://localhost:3001/event/${eventId}/${userId}`);
+  return response.data;
+};
 
 interface Event {
   id: string;
-  title: string;
+  name: string;
   date: string;
   location: string;
   cost: string;
@@ -140,6 +120,20 @@ interface EventsSectionProps {
 }
 
 const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
+  const { isLoggedIn, userId } = useAuth();
+
+  // Set up the mutation to join an event
+  const { mutate: joinEventMutation, isLoading, error } = useMutation({
+    mutationFn: joinEvent,
+    onSuccess: (data) => {
+      console.log('Event joined successfully:', data);
+    },
+    onError: (error) => {
+      console.error('Error joining event:', error);
+    },
+  });
+
+  // Chunk events into groups of 4 for display
   const chunkEvents = (events: Event[], size: number) => {
     const chunks = [];
     for (let i = 0; i < events.length; i += size) {
@@ -149,6 +143,14 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
   };
 
   const eventChunks = chunkEvents(events, 4);
+
+  const handleJoinEvent = (eventId: string) => {
+    if (userId) {
+      joinEventMutation({ eventId, userId }); // Pass both eventId and userId as an object
+    } else {
+      console.log('User not logged in');
+    }
+  };
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -191,12 +193,14 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
               {chunk.map((event) => (
                 <EventCard
                   key={event.id}
-                  title={event.title}
+                  id={event.id} // Pass the id prop
+                  name={event.name}
                   date={event.date}
                   location={event.location}
                   cost={event.cost}
                   primaryButtonLabel="More Info"
-                  secondaryButtonLabel="Sign in to Join"
+                  secondaryButtonLabel={isLoggedIn ? "Join" : "Sign in to Join"}
+                  onJoin={() => handleJoinEvent(event.id)} // Pass onJoin to EventCard
                 />
               ))}
             </Box>
@@ -208,3 +212,5 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
 };
 
 export default EventsSection;
+
+

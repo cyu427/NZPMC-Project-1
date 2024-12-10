@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useSearch } from '../../hooks/useSearch';
 import { columns } from './columns';
 import { SearchInputs } from './SearchInputs';
-import { Row } from '../../schema/tableDataSchema';
+import { Row } from '../../schema/formValidation/tableDataSchema';
 
 const initialRows: Row[] = [
   { id: 1, lastName: 'Boe', firstName: 'Jon', email: "123@gmail.com", homeSchool: "Yes", school: "None" },

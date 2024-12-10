@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import { Control, Controller, FieldErrors } from "react-hook-form";
-import { CreateEventSchemaFormData } from "../../../schema/createEventSchema";
+import { CreateEventSchemaFormData } from "../../../schema/formValidation/createEventSchema";
 
 const EventLocationField: React.FC<{
     control: Control<CreateEventSchemaFormData>;

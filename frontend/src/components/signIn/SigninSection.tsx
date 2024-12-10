@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { 
-  Box, 
-  Button, 
-  TextField, 
-  Dialog 
-} from '@mui/material';
-import { SignInFormData, signInSchema } from '../../schema/signinSchema';
+import { Box, Button, TextField, Dialog, CircularProgress, Alert } from '@mui/material';
+import { SignInFormData, signInSchema } from '../../schema/formValidation/signinSchema';
 import { useSigninContext } from '../../hooks/useSigninContext';
 import ResetPasswordDialog from '../resetPassword/ResetPasswordDialog';
 import { ResetPasswordProvider } from '../../provider/ResetPasswordProvider';
+import { signIn } from '../../queries/auth';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 export const SigninSection: React.FC = () => {
   const { setPage } = useSigninContext();
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { login } = useAuth();
+
+  const navigate = useNavigate();
 
   const {
     control,
@@ -24,9 +27,25 @@ export const SigninSection: React.FC = () => {
     resolver: zodResolver(signInSchema),
   });
 
+  const signInMutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (data) => {
+      console.log('Login success:', data);
+      login(data.userId);
+      navigate('/signed-in');
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('An error occurred during login.');
+      }
+    },
+  });
+
   const onLoginSubmit = (data: SignInFormData) => {
     console.log('Login data:', data);
-    // Implement login logic here
+    signInMutation.mutate(data);
   };
 
   const handleOpenResetDialog = () => {
@@ -72,22 +91,18 @@ export const SigninSection: React.FC = () => {
           )}
         />
         <Box sx={{ mt: 2 }}>
-          <Button
-            onClick={handleOpenResetDialog}
-            sx={{ textTransform: 'none' }}
-          >
+          <Button onClick={handleOpenResetDialog} sx={{ textTransform: 'none' }}>
             Forgot Password?
           </Button>
         </Box>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          Sign in
+        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} disabled={signInMutation.isPending}>
+          {signInMutation.isPending ? <CircularProgress size={24} color="inherit" /> : 'Sign in'}
         </Button>
+        {errorMessage && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {errorMessage}
+          </Alert>
+        )}
       </form>
       <Dialog open={resetDialogOpen} onClose={handleCloseResetDialog} fullWidth maxWidth="sm">
         <ResetPasswordProvider>

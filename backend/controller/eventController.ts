@@ -82,4 +82,4 @@ export const joinEvent = async (req: Request, res: Response): Promise<void> => {
           });
 
     } catch (error) {}
-}
+};

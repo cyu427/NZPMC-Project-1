@@ -1,5 +1,5 @@
 import { Control, Controller, FieldErrors } from "react-hook-form";
-import { CreateEventSchemaFormData } from "../../../schema/createEventSchema";
+import { CreateEventSchemaFormData } from "../../../schema/formValidation/createEventSchema";
 import { TextField } from "@mui/material";
 
 const EventCostField: React.FC<{
