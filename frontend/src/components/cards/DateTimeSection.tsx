@@ -10,7 +10,7 @@ const DateTimeSection: React.FC<DateTimeSectionProps> = ({ dateTime}) => {
     return (
         <Box display="flex" alignItems="center"> {/* Use flexbox for horizontal alignment */}
             <CalendarIcon /> {/* Use the CalendarIcon component */}
-            <Typography variant="body2" sx={{ color: 'text.primary', marginLeft: 1, fontSize: 16 }}> {/* Add margin to space out the icon and text */}
+            <Typography variant="body2" sx={{ color: 'text.primary', marginLeft: 1, fontSize: 15 }}>
                 {dateTime}
             </Typography>
         </Box>

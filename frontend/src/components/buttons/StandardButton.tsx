@@ -4,9 +4,9 @@ import { Button } from '@mui/material';
 const templateButtonStyle = {
     borderRadius: 100,
     textTransform: 'none',
-    fontSize: '12px',
+    fontSize: '11px',
     padding: '9px 10px',
-    width: '114px',
+    width: '105px',
     height: '40px',
     border: '1px solid black',
     fontWeight: '550'

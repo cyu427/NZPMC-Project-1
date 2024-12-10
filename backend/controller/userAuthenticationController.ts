@@ -26,6 +26,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 
         res.status(200).json({
             message: 'User signed in successfully',
+            userId: user._id
         });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });

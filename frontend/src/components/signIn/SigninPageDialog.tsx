@@ -1,15 +1,20 @@
-import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
-import SigninPageWrapper from './SigninPageWrapper'
+import React from 'react';
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import SigninPageWrapper from './SigninPageWrapper';
 
-const SigninPageDialog = () => {
+interface SigninPageDialogProps {
+  onClose: () => void;
+}
+
+const SigninPageDialog: React.FC<SigninPageDialogProps> = ({ onClose }) => {
   return (
-    <Dialog open={true} maxWidth="sm" fullWidth>
+    <Dialog open={true} maxWidth="sm" fullWidth onClose={onClose}>
       <DialogTitle>
         Sign in
         <IconButton
           aria-label="close"
-          onClick={() => {/* handle close */}}
+          onClick={onClose}
           sx={{
             position: 'absolute',
             right: 8,
@@ -24,7 +29,7 @@ const SigninPageDialog = () => {
         <SigninPageWrapper />
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
-export default SigninPageDialog
+export default SigninPageDialog;

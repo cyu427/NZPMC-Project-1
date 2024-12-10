@@ -1,7 +1,7 @@
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField, Box, Button } from '@mui/material'
-import { personalInfoSchema, PersonalInfoFormData } from '../../../schema/registrationSchema'
+import { personalInfoSchema, PersonalInfoFormData } from '../../../schema/formValidation/registrationSchema'
 import { useRegisterContext } from '../../../hooks/useRegisterContext'
 
 const PersonalInfoStep = () => {

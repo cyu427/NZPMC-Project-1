@@ -1,4 +1,4 @@
-import { CreateEventSchemaFormData } from "../../../schema/createEventSchema";
+import { CreateEventSchemaFormData } from "../../../schema/formValidation/createEventSchema";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 import { Control, Controller, FieldErrors } from "react-hook-form";

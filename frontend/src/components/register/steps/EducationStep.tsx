@@ -1,7 +1,7 @@
 import { useForm, Controller, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField, Box, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material'
-import { educationSchema, EducationFormData } from '../../../schema/registrationSchema'
+import { educationSchema, EducationFormData } from '../../../schema/formValidation/registrationSchema'
 import { useRegisterContext } from '../../../hooks/useRegisterContext'
 import { useEffect } from 'react'
 

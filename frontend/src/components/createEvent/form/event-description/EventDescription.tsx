@@ -4,7 +4,7 @@ import { Control, Controller, FieldErrors } from "react-hook-form";
 
 import "react-quill/dist/quill.snow.css";
 import { modules, formats } from "./toolbar";
-import { CreateEventSchemaFormData } from "../../../../schema/createEventSchema";
+import { CreateEventSchemaFormData } from "../../../../schema/formValidation/createEventSchema";
 
 const EventDescriptionField: React.FC<{
   control: Control<CreateEventSchemaFormData>;

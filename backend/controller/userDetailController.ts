@@ -4,7 +4,7 @@ import User, { IUser } from '../model/user.model';
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { email, password, fname, lname, isHomeSchooled, school } = req.body;
+      const { email, password, firstName, lastName, homeSchooled, school } = req.body;
   
       // Check if user already exists
       const existingUser = await User.findOne({ email });
@@ -21,9 +21,9 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
       const newUser: IUser = new User({
         email,
         password: hashedPassword,
-        fname,
-        lname,
-        isHomeSchooled,
+        firstName,
+        lastName,
+        homeSchooled,
         school,
         isSignedIn: false
       });
@@ -63,9 +63,9 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
         user: {
           id: user.id,
           email: user.email,
-          fname: user.fname,
-          lname: user.lname,
-          isHomeSchooled: user.isHomeSchooled,
+          fname: user.firstName,
+          lname: user.lastName,
+          isHomeSchooled: user.homeSchooled,
           school: user.school,
           isSignedIn: user.isSignedIn,
         },
@@ -77,10 +77,10 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
 export const editUserName = async (req: Request, res: Response): Promise<void> => {
     try {
         const { userId } = req.params;
-        const { fname, lname } = req.body;
+        const { firstName, lastName } = req.body;
 
         // Validate input
-        if (!fname || !lname) {
+        if (!firstName || !lastName) {
             res.status(400).json({ message: 'First name and last name are required.' });
             return;
         }
@@ -88,7 +88,7 @@ export const editUserName = async (req: Request, res: Response): Promise<void> =
         // Find user and update `fname` and `lname` fields
         const editedUser = await User.findByIdAndUpdate(
             userId,
-            { fname, lname },
+            { firstName, lastName },
             { new: true, runValidators: true } // Return the updated document and run validations
         );
 
@@ -103,8 +103,8 @@ export const editUserName = async (req: Request, res: Response): Promise<void> =
             user: {
                 id: editedUser.id,
                 email: editedUser.email,
-                fname: editedUser.fname,
-                lname: editedUser.lname,
+                fname: editedUser.firstName,
+                lname: editedUser.lastName,
             },
         }); 
     } catch (error) {}

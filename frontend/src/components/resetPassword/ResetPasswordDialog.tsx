@@ -1,15 +1,20 @@
-import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
-import ResetPasswordStepWrapper from './ResetPasswordStepWrapper'
+import React from 'react';
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import ResetPasswordStepWrapper from './ResetPasswordStepWrapper';
 
-const ResetPasswordDialog = () => {
+interface ResetPasswordDialogProps {
+  onClose: () => void;
+}
+
+const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = ({ onClose }) => {
   return (
-    <Dialog open={true} maxWidth="sm" fullWidth>
+    <Dialog open={true} maxWidth="sm" fullWidth onClose={onClose}>
       <DialogTitle>
         Reset Password
         <IconButton
           aria-label="close"
-          onClick={() => {/* handle close */}}
+          onClick={onClose}
           sx={{
             position: 'absolute',
             right: 8,
@@ -24,7 +29,7 @@ const ResetPasswordDialog = () => {
         <ResetPasswordStepWrapper />
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
-export default ResetPasswordDialog
+export default ResetPasswordDialog;

@@ -5,9 +5,9 @@ import { IEvent } from './event.model';
 export interface IUser extends Document {
     email: string;
     password: string;
-    fname: string;
-    lname: string;
-    isHomeSchooled: boolean;
+    firstName: string;
+    lastName: string;
+    homeSchooled: boolean;
     school?: ISchool['_id'];
     event: IEvent['_id'][];
     isSignedIn: boolean;
@@ -17,10 +17,10 @@ export interface IUser extends Document {
 const userSchema = new mongoose.Schema<IUser>({
     email: { type: String, required: true },
     password: { type: String, required: true },
-    fname: { type: String, required: true },
-    lname: { type: String, required: true },
-    isHomeSchooled: { type: Boolean, required: true },
-    school: { type: mongoose.Schema.Types.ObjectId, ref: 'School' },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    homeSchooled: { type: Boolean, required: true },
+    school: { type: String, required: true },
     event: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
     isSignedIn: Boolean
 });
