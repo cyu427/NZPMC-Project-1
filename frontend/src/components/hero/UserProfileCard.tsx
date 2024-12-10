@@ -35,7 +35,7 @@ const ProfileContainer = styled(Paper)({
   borderRadius: '16px',
   padding: '24px',
   width: '400px',
-  height: '250px',
+  height: '300px',
   border: '3px solid #fff',
   display: 'flex',
   flexDirection: 'column',

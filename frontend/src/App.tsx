@@ -1,46 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import RegisterPage from './pages/RegisterPage'
-import LoginForm from './pages/SignInPage'
-import ResetPasswordPage from './pages/ResetPasswordPage'
-import SigninPage from './pages/SigninPage'
-import CreateEventGeneralFields from './components/createEvent/CreateEventGeneralFields'
-import EventDescriptionField from './components/createEvent/form/event-description/EventDescription'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthProvider from "./provider/AuthProvider";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
+import LandingPageSignedIn from "./pages/LandingPageSignedIn/LandingPageSignedIn";
+import RegisterPage from "./pages/RegisterPage";
+import { RegisterProvider } from "./provider/RegisterProvider";
+import { LoginStep } from "./pages/NewSignInPage";
+import SigninPage from "./pages/SignInPage";
 
-function App() {
-  // const [count, setCount] = useState(0)
+export default function App() {
+  const [queryClient] = useState(() => new QueryClient());
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <LandingPage />
+      ),
+    },
+    {
+      path: "/signed-in",
+      element: (
+        <LandingPageSignedIn />
+      ),
+    },
+    {
+      path: "/admin",
+      element: (
+        <AdminPage />
+      ),
+    },
+    
+  ]);
+
   return (
-    <>
-      {/* <RegisterPage/> */}
-      {/* <LoginForm/> */}
-      {/* <SigninPage/> */}
-      <CreateEventGeneralFields/>
-      {/* <EventDescriptionField/> */}
-      {/* <ResetPasswordPage/> */}
-      {/* <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
-    </>
-  )
+    <QueryClientProvider client={queryClient}>
+      {/* <AuthProvider> */}
+        <RouterProvider router={router} />
+      {/* </AuthProvider> */}
+    </QueryClientProvider>
+  );  
 }
-
-export default App

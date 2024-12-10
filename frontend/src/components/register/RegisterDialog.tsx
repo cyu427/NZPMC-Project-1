@@ -1,15 +1,19 @@
-import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
-import RegisterStepWrapper from './RegisterStepWrapper'
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import RegisterStepWrapper from './RegisterStepWrapper';
 
-const RegisterDialog = () => {
+interface RegisterDialogProps {
+  onClose: () => void;
+}
+
+const RegisterDialog: React.FC<RegisterDialogProps> = ({ onClose }) => {
   return (
-    <Dialog open={true} maxWidth="sm" fullWidth>
+    <Dialog open={true} maxWidth="sm" fullWidth onClose={onClose}>
       <DialogTitle>
         Registration
         <IconButton
           aria-label="close"
-          onClick={() => {/* handle close */}}
+          onClick={onClose}
           sx={{
             position: 'absolute',
             right: 8,
@@ -24,7 +28,7 @@ const RegisterDialog = () => {
         <RegisterStepWrapper />
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default RegisterDialog
+export default RegisterDialog;

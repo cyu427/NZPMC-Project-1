@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import HeroSection from '../../../components/HeroSectionNotSignedIn';
+import EventDetailTest from './EventDetailsTest';
 
-const meta: Meta<typeof HeroSection> = {
-    title: "Hero/Hero",
-    component: HeroSection,
+const meta: Meta<typeof EventDetailTest> = {
+    title: "Page/Event Details",
+    component: EventDetailTest,
     parameters: {
         layout:"centered",
       },

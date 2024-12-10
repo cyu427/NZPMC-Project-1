@@ -8,7 +8,6 @@ const HighlightedText = styled('span')({
 const ButtonContainer = styled(Box)({    
     display: 'flex',
     gap: '150px',
-    marginTop: '32px',
     alignItems: 'center',
     justifyContent: 'center',
 })
@@ -23,8 +22,8 @@ export default function HeroNotSignedIn() {
                 All-in-one portal for NZPMC event registration and payment
             </Typography>
             <ButtonContainer>
-                <AuthorisationButton label='Sign in' buttonType='landing' buttonColor='white'/>
-                <AuthorisationButton label='Register' buttonType='landing' buttonColor='blue'/>
+                <AuthorisationButton label='Sign in' buttonType='landing' buttonColor='white' actionType="login"/>
+                <AuthorisationButton label='Register' buttonType='landing' buttonColor='blue' actionType="register"/>
             </ButtonContainer>
         </Container>
     )

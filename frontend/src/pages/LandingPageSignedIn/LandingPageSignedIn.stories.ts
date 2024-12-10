@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import HeroSection from '../../../components/HeroSectionNotSignedIn';
+import LandingPageSignedIn from './LandingPageSignedIn';
 
-const meta: Meta<typeof HeroSection> = {
-    title: "Hero/Hero",
-    component: HeroSection,
+const meta: Meta<typeof LandingPageSignedIn> = {
+    title: "Page/Landing Signed In",
+    component: LandingPageSignedIn,
     parameters: {
         layout:"centered",
       },

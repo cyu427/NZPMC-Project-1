@@ -1,16 +1,102 @@
-import React from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+// import React from 'react'
+// import { useForm, Controller } from 'react-hook-form'
+// import { zodResolver } from '@hookform/resolvers/zod'
+// import { 
+//   Box, 
+//   Button, 
+//   TextField 
+// } from '@mui/material'
+// import { SignInFormData, signInSchema } from '../../schema/signinSchema'
+// import { useSigninContext } from '../../hooks/useSigninContext'
+
+// export const SigninSection: React.FC = () => {
+//   const { setPage } = useSigninContext()
+
+//   const {
+//     control,
+//     handleSubmit,
+//     formState: { errors },
+//   } = useForm<SignInFormData>({
+//     resolver: zodResolver(signInSchema),
+//   })
+
+//   const onLoginSubmit = (data: SignInFormData) => {
+//     console.log('Login data:', data)
+//     // Implement login logic here
+//   }
+
+//   return (
+//     <form onSubmit={handleSubmit(onLoginSubmit)}>
+//       <Controller
+//         name="email"
+//         control={control}
+//         defaultValue=""
+//         render={({ field }) => (
+//           <TextField
+//             {...field}
+//             label="Email"
+//             fullWidth
+//             margin="normal"
+//             error={!!errors.email}
+//             helperText={errors.email?.message}
+//           />
+//         )}
+//       />
+//       <Controller
+//         name="password"
+//         control={control}
+//         defaultValue=""
+//         render={({ field }) => (
+//           <TextField
+//             {...field}
+//             label="Password"
+//             type="password"
+//             fullWidth
+//             margin="normal"
+//             error={!!errors.password}
+//             helperText={errors.password?.message}
+//           />
+//         )}
+//       />
+//       <Box sx={{ mt: 2 }}>
+//         <Button
+//           onClick={() => setPage('forgotPassword')}
+//           sx={{ textTransform: 'none' }}
+//         >
+//           Forgot Password?
+//         </Button>
+//       </Box>
+//       <Button
+//         type="submit"
+//         variant="contained"
+//         color="primary"
+//         fullWidth
+//         sx={{ mt: 2 }}
+//       >
+//         Sign in
+//       </Button>
+//     </form>
+//   )
+// }
+
+
+import React, { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { 
   Box, 
   Button, 
-  TextField 
-} from '@mui/material'
-import { SignInFormData, signInSchema } from '../../schema/signinSchema'
-import { useSigninContext } from '../../hooks/useSigninContext'
+  TextField, 
+  Dialog 
+} from '@mui/material';
+import { SignInFormData, signInSchema } from '../../schema/signinSchema';
+import { useSigninContext } from '../../hooks/useSigninContext';
+import ResetPasswordDialog from '../resetPassword/ResetPasswordDialog';
+import { ResetPasswordProvider } from '../../provider/ResetPasswordProvider';
 
 export const SigninSection: React.FC = () => {
-  const { setPage } = useSigninContext()
+  const { setPage } = useSigninContext();
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
 
   const {
     control,
@@ -18,63 +104,78 @@ export const SigninSection: React.FC = () => {
     formState: { errors },
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
-  })
+  });
 
   const onLoginSubmit = (data: SignInFormData) => {
-    console.log('Login data:', data)
+    console.log('Login data:', data);
     // Implement login logic here
-  }
+  };
+
+  const handleOpenResetDialog = () => {
+    setResetDialogOpen(true);
+  };
+
+  const handleCloseResetDialog = () => {
+    setResetDialogOpen(false);
+  };
 
   return (
-    <form onSubmit={handleSubmit(onLoginSubmit)}>
-      <Controller
-        name="email"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Email"
-            fullWidth
-            margin="normal"
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-        )}
-      />
-      <Controller
-        name="password"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Password"
-            type="password"
-            fullWidth
-            margin="normal"
-            error={!!errors.password}
-            helperText={errors.password?.message}
-          />
-        )}
-      />
-      <Box sx={{ mt: 2 }}>
+    <div>
+      <form onSubmit={handleSubmit(onLoginSubmit)}>
+        <Controller
+          name="email"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Email"
+              fullWidth
+              margin="normal"
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
+          )}
+        />
+        <Controller
+          name="password"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Password"
+              type="password"
+              fullWidth
+              margin="normal"
+              error={!!errors.password}
+              helperText={errors.password?.message}
+            />
+          )}
+        />
+        <Box sx={{ mt: 2 }}>
+          <Button
+            onClick={handleOpenResetDialog}
+            sx={{ textTransform: 'none' }}
+          >
+            Forgot Password?
+          </Button>
+        </Box>
         <Button
-          onClick={() => setPage('forgotPassword')}
-          sx={{ textTransform: 'none' }}
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
         >
-          Forgot Password?
+          Sign in
         </Button>
-      </Box>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        fullWidth
-        sx={{ mt: 2 }}
-      >
-        Sign in
-      </Button>
-    </form>
-  )
-}
+      </form>
+      <Dialog open={resetDialogOpen} onClose={handleCloseResetDialog} fullWidth maxWidth="sm">
+        <ResetPasswordProvider>
+          <ResetPasswordDialog onClose={handleCloseResetDialog} />
+        </ResetPasswordProvider>
+      </Dialog>
+    </div>
+  );
+};

@@ -32,7 +32,8 @@ const userData: UserProfileData = {
 export default function HeroNotSignedIn() {
     return (
         <Container maxWidth="md">
-            <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 600, marginBottom: 1}}>
+            <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 600 }}>
+            {/* <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 600, marginBottom: 2, marginTop: 3}}> */}
                 Welcome <HighlightedText>{userData.firstName}</HighlightedText>
             </Typography>
             <UserProfileContainer>
