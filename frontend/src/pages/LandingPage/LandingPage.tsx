@@ -37,10 +37,6 @@ const LandingPage: React.FC = () => {
               sx={{ 
                 maxWidth: '1200px',
                 width: '100%', // Ensure it takes full width up to max-width
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mx: 'auto', // Margin auto for centering
               }}
             > 
               <EventSection events={events || []} title="Upcoming Events" /> 

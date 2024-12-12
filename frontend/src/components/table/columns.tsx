@@ -8,11 +8,11 @@ const handleViewClick = (id: number) => {
 
 export const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', headerClassName: 'headerColours', width: 70 },
-  { field: 'firstName', headerName: 'First name', headerClassName: 'headerColours', width: 140 },
-  { field: 'lastName', headerName: 'Last name', headerClassName: 'headerColours', width: 140 },
-  { field: 'email', headerName: 'Email', headerClassName: 'headerColours', width: 250 },
+  { field: 'firstName', headerName: 'First name', headerClassName: 'headerColours', width: 157 },
+  { field: 'lastName', headerName: 'Last name', headerClassName: 'headerColours', width: 157 },
+  { field: 'email', headerName: 'Email', headerClassName: 'headerColours', width: 270 },
   { field: 'homeSchool', headerName: 'Home School', headerClassName: 'headerColours', width: 120 },
-  { field: 'school', headerName: 'School', headerClassName: 'headerColours', width: 250 },
+  { field: 'school', headerName: 'School', headerClassName: 'headerColours', width: 270 },
   { 
     field: 'view', 
     headerName: 'View', 

@@ -5,6 +5,7 @@ import Footer from "../../components/footer/Footer";
 import HeroSectionSignedIn from "../../components/HeroSectionSignedIn";
 import { getAllEvents } from "../../queries/event";
 import { useQuery } from "@tanstack/react-query";
+import HeroSectionNotSignedIn from "../../components/HeroSectionNotSignedIn";
 
 interface Event {
   id: string;
@@ -53,63 +54,91 @@ interface Event {
 //     // Add more events as needed
 //   ];
 
+// const LandingPageSignedIn: React.FC = () => {
+//   const { data: events, error, isLoading, isError } = useQuery<Event[], Error>({
+//     queryKey: ['allEvents'],
+//     queryFn: getAllEvents,
+//   });
+
+//   // const renderContent = () => {
+//   //   if (isLoading) {
+//   //     return (
+//   //       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+//   //         <CircularProgress />
+//   //       </Box>
+//   //     );
+//   //   }
+
+//   //   if (isError) {
+//   //     console.error('Error fetching events:', error);
+//   //     return (
+//   //       <Box sx={{ textAlign: 'center', py: 4 }}>
+//   //         <Typography variant="h6" color="error">
+//   //           Error loading events. Please try again later.
+//   //         </Typography>
+//   //       </Box>
+//   //     );
+//   //   }
+
+//   //   console.log('events:', events);
+
+//   //   return (
+//   //     <>
+//   //       <Box 
+//   //         sx={{ 
+//   //           maxWidth: '1200px',
+//   //           width: '100%',
+//   //           flexDirection: 'column',
+//   //           alignItems: 'center',
+//   //           justifyContent: 'center',
+//   //           mx: 'auto',
+//   //         }}
+//   //       > 
+//   //         <EventSection events={events || []} title="Upcoming Events" />
+//   //       </Box>
+//   //       <Box 
+//   //         sx={{ 
+//   //           maxWidth: '1200px',
+//   //           width: '100%',
+//   //           flexDirection: 'column',
+//   //           alignItems: 'center',
+//   //           justifyContent: 'center',
+//   //           mx: 'auto',
+//   //         }}
+//   //       > 
+//   //         <EventSection events={events || []} title="Joined Events" />
+//   //       </Box>
+//   //     </>
+//   //   );
+//   // };
+
+//   return (
+//     <Box 
+//       component="main"
+//       sx={{ 
+//         display: 'flex', 
+//         flexDirection: 'column',
+//         minHeight: '85vh',
+//         alignItems: 'stretch',
+//       }}
+//     >
+//       <Navigation />
+//       <Box sx={{ paddingTop: '30px' }}>
+//         <HeroSectionSignedIn />
+//       </Box>
+//       {renderContent()}
+//       <Footer />
+//     </Box>
+//   );
+// };
+
+// export default LandingPageSignedIn;
+
 const LandingPageSignedIn: React.FC = () => {
-  const { data: events, error, isLoading, isError } = useQuery<Event[], Error>({
+  const { data: events } = useQuery<Event[], Error>({
     queryKey: ['allEvents'],
     queryFn: getAllEvents,
   });
-
-  const renderContent = () => {
-    if (isLoading) {
-      return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
-          <CircularProgress />
-        </Box>
-      );
-    }
-
-    if (isError) {
-      console.error('Error fetching events:', error);
-      return (
-        <Box sx={{ textAlign: 'center', py: 4 }}>
-          <Typography variant="h6" color="error">
-            Error loading events. Please try again later.
-          </Typography>
-        </Box>
-      );
-    }
-
-    console.log('events:', events);
-
-    return (
-      <>
-        <Box 
-          sx={{ 
-            maxWidth: '1200px',
-            width: '100%',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mx: 'auto',
-          }}
-        > 
-          <EventSection events={events || []} title="Upcoming Events" />
-        </Box>
-        <Box 
-          sx={{ 
-            maxWidth: '1200px',
-            width: '100%',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mx: 'auto',
-          }}
-        > 
-          <EventSection events={events || []} title="Joined Events" />
-        </Box>
-      </>
-    );
-  };
 
   return (
     <Box 
@@ -117,15 +146,29 @@ const LandingPageSignedIn: React.FC = () => {
       sx={{ 
         display: 'flex', 
         flexDirection: 'column',
-        minHeight: '85vh',
-        alignItems: 'stretch',
+        alignItems: 'center', // Centers everything horizontally
       }}
     >
       <Navigation />
-      <Box sx={{ paddingTop: '30px' }}>
-        <HeroSectionSignedIn />
+      <Box sx={{ paddingTop: '30px' }}> 
+        <HeroSectionSignedIn /> 
       </Box>
-      {renderContent()}
+      <Box 
+        sx={{ 
+          maxWidth: '1200px',
+          width: '100%', // Ensure it takes full width up to max-width
+        }}
+      > 
+        <EventSection events={events || []} title="Upcoming Events" /> 
+      </Box>
+      <Box 
+        sx={{ 
+          maxWidth: '1200px',
+          width: '100%', // Ensure it takes full width up to max-width
+        }}
+      > 
+        <EventSection events={events || []} title="Joined Events" /> 
+      </Box>
       <Footer />
     </Box>
   );
