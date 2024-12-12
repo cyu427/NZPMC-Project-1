@@ -108,7 +108,7 @@ const AdminPage: React.FC = () => {
           width: '100%', // Ensure it takes full width up to max-width
         }}
       > 
-        <EventSection events={events || []} title="Upcoming Events" /> 
+        <EventSection events={events || []} title="All Events" /> 
       </Box>
       <Box 
         sx={{ 

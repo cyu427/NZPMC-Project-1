@@ -81,5 +81,7 @@ export const joinEvent = async (req: Request, res: Response): Promise<void> => {
             user
           });
 
-    } catch (error) {}
+    } catch (error) {
+        console.error('Error joining event:', error);
+    }
 };

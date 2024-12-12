@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createEventSchema = z.object({
-    eventName: z.string().min(1, "Event name is required"),
+    name: z.string().min(1, "Event name is required"),
     dateTime: z.string().datetime("Date and time is required").refine(
       (dateTimeString) => {
           const inputDate = new Date(dateTimeString);

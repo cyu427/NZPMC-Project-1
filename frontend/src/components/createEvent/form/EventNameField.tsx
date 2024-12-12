@@ -7,7 +7,7 @@ const EventNameField: React.FC<{
     errors: FieldErrors<CreateEventSchemaFormData>;
   }> = ({ control, errors }) => (
     <Controller
-      name="eventName"
+      name="name"
       control={control}
       defaultValue=""
       render={({ field }) => (
@@ -16,8 +16,8 @@ const EventNameField: React.FC<{
           label="Event Name"
           fullWidth
           margin="normal"
-          error={!!errors.eventName}
-          helperText={errors.eventName?.message}
+          error={!!errors.name}
+          helperText={errors.name?.message}
         />
       )}
     />
