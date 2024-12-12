@@ -1,5 +1,12 @@
-import { Box, Container, styled, Typography } from "@mui/material"
+import { Box, Container, Dialog, styled, Typography } from "@mui/material"
 import AuthorisationButton from "../buttons/AuthorisationButton"
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { SignInProvider } from "../../provider/SigninProvider";
+import SigninPageDialog from "../signIn/SigninPageDialog";
+import { RegisterProvider } from "../../provider/RegisterProvider";
+import RegisterDialog from "../register/RegisterDialog";
 
 const HighlightedText = styled('span')({
     color: '#FFD700',
@@ -13,6 +20,27 @@ const ButtonContainer = styled(Box)({
 })
 
 export default function HeroNotSignedIn() {
+    const { isLoggedIn, logout, userId } = useAuth();
+    const navigate = useNavigate();
+
+    const [open, setOpen] = useState(false);
+    const [dialogType, setDialogType] = useState<'signIn' | 'register' | null>(null);
+
+    const handleClose = () => {
+        setOpen(false);
+        setDialogType(null);
+    };
+
+    const handleSignIn = () => {
+        setDialogType('signIn');
+        setOpen(true);
+    };
+
+    const handleRegister = () => {
+        setDialogType('register');
+        setOpen(true);
+    };
+
     return (
         <Container maxWidth="md">
             <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 600 }}>
@@ -22,9 +50,23 @@ export default function HeroNotSignedIn() {
                 All-in-one portal for NZPMC event registration and payment
             </Typography>
             <ButtonContainer>
-                <AuthorisationButton label='Sign in' buttonType='landing' buttonColor='white' actionType="login"/>
-                <AuthorisationButton label='Register' buttonType='landing' buttonColor='blue' actionType="register"/>
+                <AuthorisationButton label='Sign in' buttonType='landing' buttonColor='white' onClick={handleSignIn}/>
+                <AuthorisationButton label='Register' buttonType='landing' buttonColor='blue' onClick={handleRegister}/>
             </ButtonContainer>
+
+            {/* Render Dialog Conditionally */}
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+                {dialogType === 'signIn' && (
+                <SignInProvider>
+                    <SigninPageDialog onClose={handleClose} />
+                </SignInProvider>
+                )}
+                {dialogType === 'register' && (
+                <RegisterProvider>
+                    <RegisterDialog onClose={handleClose} />
+                </RegisterProvider>
+                )}
+            </Dialog>
         </Container>
     )
 }

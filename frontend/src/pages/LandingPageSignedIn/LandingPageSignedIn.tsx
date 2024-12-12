@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 interface Event {
   id: string;
   name: string;
-  dateTime: string;
+  dateTime: Date;
   location: string;
   cost: string;
 }
