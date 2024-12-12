@@ -27,26 +27,33 @@ export const SigninSection: React.FC = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  const signInMutation = useMutation({
-    mutationFn: signIn,
-    onSuccess: (data) => {
-      console.log('Login success:', data);
-      login(data.userId);
-      navigate('/signed-in');
-    },
-    onError: (error) => {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      } else {
-        setErrorMessage('An error occurred during login.');
-      }
-    },
-  });
+  // const signInMutation = useMutation({
+  //   mutationFn: signIn,
+  //   onSuccess: (data) => {
+  //     console.log('Login success:', data);
+  //     login(data.userId);
+  //     navigate('/signed-in');
+  //   },
+  //   onError: (error) => {
+  //     if (error instanceof Error) {
+  //       setErrorMessage(error.message);
+  //     } else {
+  //       setErrorMessage('An error occurred during login.');
+  //     }
+  //   },
+  // });
+
+  // const onLoginSubmit = (data: SignInFormData) => {
+  //   console.log('Login data:', data);
+  //   signInMutation.mutate(data);
+  // };
 
   const onLoginSubmit = (data: SignInFormData) => {
-    console.log('Login data:', data);
-    signInMutation.mutate(data);
-  };
+      console.log('Login data:', data);
+      login(data);
+      navigate('/signed-in');
+    };
+  
 
   const handleOpenResetDialog = () => {
     setResetDialogOpen(true);
@@ -95,8 +102,11 @@ export const SigninSection: React.FC = () => {
             Forgot Password?
           </Button>
         </Box>
-        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} disabled={signInMutation.isPending}>
+        {/* <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} disabled={signInMutation.isPending}>
           {signInMutation.isPending ? <CircularProgress size={24} color="inherit" /> : 'Sign in'}
+        </Button> */}
+        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+          Sign in
         </Button>
         {errorMessage && (
           <Alert severity="error" sx={{ mt: 2 }}>

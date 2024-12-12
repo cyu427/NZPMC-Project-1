@@ -3,55 +3,23 @@ import Navigation from "../../components/Navigation";
 import EventSection from "../../components/EventSection/EventSection";
 import Footer from "../../components/footer/Footer";
 import HeroSectionNotSignedIn from "../../components/HeroSectionNotSignedIn";
+import { getAllEvents } from "../../queries/event";
+import { useQuery } from "@tanstack/react-query";
 
 interface Event {
-    id: string;
-    title: string;
-    date: string;
-    location: string;
-    cost: string;
-  }
-
-const events: Event[] = [
-      {
-        id: '1',
-        title: 'NZPMC 2024 Round 1',
-        date: '30 Dec, 1pm',
-        location: 'University of Auckland',
-        cost: '13.50',
-      },
-      {
-        id: '2',
-        title: 'NZPMC 2024 Round 2',
-        date: '30 Dec, 1pm',
-        location: 'University of Auckland',
-        cost: '13.50',
-      },
-      {
-        id: '3',
-        title: 'NZPMC 2024 Round 3',
-        date: '30 Dec, 1pm',
-        location: 'University of Auckland',
-        cost: '13.50',
-      },
-      {
-        id: '4',
-        title: 'NZPMC 2024 Round 4',
-        date: '30 Dec, 1pm',
-        location: 'University of Auckland',
-        cost: '13.50',
-      },
-      {
-        id: '5',
-        title: 'NZPMC 2024 Round 5',
-        date: '31 Dec, 1pm',
-        location: 'University of Auckland',
-        cost: '13.50',
-      },
-      // Add more events as needed
-    ];
+  id: string;
+  name: string;
+  dateTime: Date;
+  location: string;
+  cost: string;
+}
 
 const LandingPage: React.FC = () => {
+  const { data: events } = useQuery<Event[], Error>({
+    queryKey: ['allEvents'],
+    queryFn: getAllEvents,
+  });
+
     return (
         <Box 
           component="main"
@@ -75,7 +43,7 @@ const LandingPage: React.FC = () => {
                 mx: 'auto', // Margin auto for centering
               }}
             > 
-              <EventSection events={events} title="Upcoming Events" /> 
+              <EventSection events={events || []} title="Upcoming Events" /> 
             </Box>
             <Footer />
         </Box>

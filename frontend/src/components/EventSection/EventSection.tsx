@@ -109,7 +109,7 @@ const joinEvent = async ({ eventId, userId }: { eventId: string, userId: string 
 interface Event {
   id: string;
   name: string;
-  date: string;
+  dateTime: Date;
   location: string;
   cost: string;
 }
@@ -193,14 +193,13 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
               {chunk.map((event) => (
                 <EventCard
                   key={event.id}
-                  id={event.id} // Pass the id prop
                   name={event.name}
-                  date={event.date}
+                  dateTime={event.dateTime}
                   location={event.location}
                   cost={event.cost}
                   primaryButtonLabel="More Info"
                   secondaryButtonLabel={isLoggedIn ? "Join" : "Sign in to Join"}
-                  onJoin={() => handleJoinEvent(event.id)} // Pass onJoin to EventCard
+                  //onJoin={() => handleJoinEvent(event.id)} // Pass onJoin to EventCard
                 />
               ))}
             </Box>
