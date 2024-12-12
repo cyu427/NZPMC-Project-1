@@ -45,7 +45,7 @@ const yellowButtonStyle = {
 interface StandardButtonProps {
     label: string;
     buttonColor: 'blue' | 'white' | 'yellow';
-    onClick?: () => void;
+    onClick: () => void;
 }
 
 const StandardButton: React.FC<StandardButtonProps> = ({ label, buttonColor, onClick }) => {

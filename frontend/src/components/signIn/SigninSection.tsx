@@ -27,27 +27,6 @@ export const SigninSection: React.FC = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  // const signInMutation = useMutation({
-  //   mutationFn: signIn,
-  //   onSuccess: (data) => {
-  //     console.log('Login success:', data);
-  //     login(data.userId);
-  //     navigate('/signed-in');
-  //   },
-  //   onError: (error) => {
-  //     if (error instanceof Error) {
-  //       setErrorMessage(error.message);
-  //     } else {
-  //       setErrorMessage('An error occurred during login.');
-  //     }
-  //   },
-  // });
-
-  // const onLoginSubmit = (data: SignInFormData) => {
-  //   console.log('Login data:', data);
-  //   signInMutation.mutate(data);
-  // };
-
   const onLoginSubmit = (data: SignInFormData) => {
       console.log('Login data:', data);
       login(data);

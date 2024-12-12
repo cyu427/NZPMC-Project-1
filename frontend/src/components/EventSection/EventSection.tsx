@@ -1,17 +1,19 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Dialog, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import EventCard from '../cards/Card';
 import useAuth from '../../hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { SignInProvider } from '../../provider/SigninProvider';
+import SigninPageDialog from '../signIn/SigninPageDialog';
+import { joinEvent } from '../../queries/event';
 
 // Define the mutation function for joining an event
-const joinEvent = async ({ eventId, userId }: { eventId: string, userId: string }) => {
-  const response = await axios.post(`http://localhost:3001/event/${eventId}/${userId}`);
-  return response.data;
-};
+// const joinEvent = async ({ eventId, userId }: { eventId: string, userId: string }) => {
+//   const response = await axios.post(`http://localhost:3001/event/${eventId}/${userId}`);
+//   return response.data;
+// };
 
 interface Event {
   id: string;
@@ -29,9 +31,8 @@ interface EventsSectionProps {
 const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
   const { isLoggedIn, userId } = useAuth();
 
-  // Set up the mutation to join an event
-  const { mutate: joinEventMutation, isLoading, error } = useMutation({
-    mutationFn: joinEvent,
+  const joinEventMutation = useMutation({
+    mutationFn: ({ eventId, userId }: { eventId: string, userId: string }) => joinEvent(eventId, userId),
     onSuccess: (data) => {
       console.log('Event joined successfully:', data);
     },
@@ -39,6 +40,16 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
       console.error('Error joining event:', error);
     },
   });
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSignIn = () => {
+    setOpen(true);
+  };
 
   // Chunk events into groups of 4 for display
   const chunkEvents = (events: Event[], size: number) => {
@@ -51,11 +62,12 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
 
   const eventChunks = chunkEvents(events, 4);
 
-  const handleJoinEvent = (eventId: string) => {
-    if (userId) {
-      joinEventMutation({ eventId, userId }); // Pass both eventId and userId as an object
+  const handleJoin = (eventId: string) => {
+    if (isLoggedIn && userId) {
+      joinEventMutation.mutate({ eventId, userId });
+      console.log('Clicked join event. Joined through click');
     } else {
-      console.log('User not logged in');
+      handleSignIn();
     }
   };
 
@@ -106,13 +118,20 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
                   cost={event.cost}
                   primaryButtonLabel="More Info"
                   secondaryButtonLabel={isLoggedIn ? "Join" : "Sign in to Join"}
-                  //onJoin={() => handleJoinEvent(event.id)} // Pass onJoin to EventCard
+                  onClick={() => handleJoin(event.id)} // Pass onJoin to EventCard
                 />
               ))}
             </Box>
           ))}
         </Carousel>
       </Box>
+
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+          <SignInProvider>
+            <SigninPageDialog onClose={handleClose} />
+          </SignInProvider>
+      </Dialog>
+
     </Box>
   );
 };

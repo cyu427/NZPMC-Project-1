@@ -59,7 +59,7 @@ export const joinEvent = async (req: Request, res: Response): Promise<void> => {
 
         // Check if user is already in the event
         if (event.users?.includes(user._id)) {
-            res.status(404).json({ message: 'User already joined event' });
+            res.status(400).json({ message: 'User already joined event' });
             return;
         }
         
