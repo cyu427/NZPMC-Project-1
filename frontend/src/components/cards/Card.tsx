@@ -17,9 +17,10 @@ interface EventCardProps {
   primaryButtonLabel: string,
   secondaryButtonLabel: string,
   onClick: (eventId?: string) => void;
+  onClickMoreInfo: () => void;
 }
 
-export default function EventCard({ name, dateTime, location, cost, primaryButtonLabel, secondaryButtonLabel, onClick }: EventCardProps) {
+export default function EventCard({ name, dateTime, location, cost, primaryButtonLabel, secondaryButtonLabel, onClick, onClickMoreInfo }: EventCardProps) {
   return (
     <Card sx={{ width: 240, height: 270, border: '1px solid black'}}>
       <CardContent>
@@ -34,7 +35,7 @@ export default function EventCard({ name, dateTime, location, cost, primaryButto
       </CardContent>
       <CardActions sx={{ pt: 0 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <StandardButton label={primaryButtonLabel} buttonColor="white" onClick={onClick}/>
+            <StandardButton label={primaryButtonLabel} buttonColor="white" onClick={onClickMoreInfo}/>
             <StandardButton label={secondaryButtonLabel} buttonColor="blue" onClick={onClick}/>
         </Box>
       </CardActions>
