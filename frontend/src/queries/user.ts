@@ -3,7 +3,6 @@ import { AccountFormData } from "../schema/apiDataValidation/newAccountSchema";
 
 export const createAccount = (newAccount: AccountFormData) =>
   axios.post('http://localhost:3001/user-details', newAccount)
-;
 
 export const getUserDetails = (userId: string) =>
   axios.get(`http://localhost:3001/user-details/${userId}`).then(res => res.data.user)

@@ -5,6 +5,7 @@ import Footer from "../../components/footer/Footer";
 import DataTableWithSearch from "../../components/table/DataTableWithSearch";
 import { useQuery } from "@tanstack/react-query";
 import { getAllEvents } from "../../queries/event";
+import { getAllUsers } from "../../queries/admin/adminUser";
 
 interface Event {
   id: string;
@@ -18,6 +19,11 @@ const AdminPage: React.FC = () => {
   const { data: events } = useQuery<Event[], Error>({
     queryKey: ['allEvents'],
     queryFn: getAllEvents,
+  });
+
+  const { data: users } = useQuery<Event[], Error>({
+    queryKey: ['allUsers'],
+    queryFn: getAllUsers,
   });
 
     return (
@@ -49,7 +55,7 @@ const AdminPage: React.FC = () => {
           width: '100%', // Ensure it takes full width up to max-width
         }}
       > 
-        <DataTableWithSearch /> 
+        <DataTableWithSearch data={users}/> 
       </Box>
       <Footer />
     </Box>

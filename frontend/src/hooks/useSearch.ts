@@ -10,33 +10,32 @@ export const useSearch = (initialRows: Row[]) => {
 
     const searchTermLower = searchTerm.toLowerCase();
     return initialRows.filter(row => {
-      const fullName = `${row.firstName} ${row.lastName}`.toLowerCase();
-      const reverseFullName = `${row.lastName} ${row.firstName}`.toLowerCase();
-
-      switch(searchField) {
+      const fullName = `${row.firstName || ''} ${row.lastName || ''}`.toLowerCase();
+      const reverseFullName = `${row.lastName || ''} ${row.firstName || ''}`.toLowerCase();
+    
+      switch (searchField) {
         case 'firstName':
-          return row.firstName.toLowerCase().includes(searchTermLower);
+          return row.firstName?.toLowerCase().includes(searchTermLower);
         case 'lastName':
-          return row.lastName.toLowerCase().includes(searchTermLower);
+          return row.lastName?.toLowerCase().includes(searchTermLower);
         case 'fullName':
-          return fullName.includes(searchTermLower) || 
-                 reverseFullName.includes(searchTermLower);
+          return fullName.includes(searchTermLower) || reverseFullName.includes(searchTermLower);
         case 'email':
-          return row.email.toLowerCase().includes(searchTermLower);
+          return row.email?.toLowerCase().includes(searchTermLower);
         case 'school':
-          return row.school.toLowerCase().includes(searchTermLower);
+          return row.school?.toLowerCase().includes(searchTermLower);
         case 'homeSchool':
-          return row.homeSchool.toLowerCase().includes(searchTermLower);
+          return row.homeSchool?.toLowerCase().includes(searchTermLower);
         case 'all':
         default:
           return (
-            row.firstName.toLowerCase().includes(searchTermLower) ||
-            row.lastName.toLowerCase().includes(searchTermLower) ||
+            row.firstName?.toLowerCase().includes(searchTermLower) ||
+            row.lastName?.toLowerCase().includes(searchTermLower) ||
             fullName.includes(searchTermLower) ||
             reverseFullName.includes(searchTermLower) ||
-            row.email.toLowerCase().includes(searchTermLower) ||
-            row.school.toLowerCase().includes(searchTermLower) ||
-            row.homeSchool.toLowerCase().includes(searchTermLower)
+            row.email?.toLowerCase().includes(searchTermLower) ||
+            row.school?.toLowerCase().includes(searchTermLower) ||
+            row.homeSchool?.toLowerCase().includes(searchTermLower)
           );
       }
     });

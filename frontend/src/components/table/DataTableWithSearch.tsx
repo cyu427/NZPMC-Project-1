@@ -4,13 +4,17 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useSearch } from '../../hooks/useSearch';
 import { columns } from './columns';
 import { SearchInputs } from './SearchInputs';
-import { Row } from '../../schema/formValidation/tableDataSchema';
 
-const initialRows: Row[] = [
-  { id: 1, lastName: 'Boe', firstName: 'Jon', email: "123@gmail.com", homeSchool: "Yes", school: "None" },
-  { id: 2, lastName: 'Yu', firstName: 'Cedric', email: "cedricyu3717@hotmail.com", homeSchool: "No", school: "Westlake Boys High School" },
-  { id: 3, lastName: 'Doe', firstName: 'Jon', email: "123@gmail.com", homeSchool: "Yes", school: "Samuel Marsden Collegiate School" }
-];
+interface DataTableWithSearchProps {
+  data: Array<{
+    id: number;
+    lastName: string;
+    firstName: string;
+    email: string;
+    homeSchool: string;
+    school: string;
+  }>;
+}
 
 const PAGINATION_MODEL = { page: 0, pageSize: 5 };
 const DATA_GRID_SX = { 
@@ -22,8 +26,8 @@ const DATA_GRID_SX = {
   }  
 };
 
-const DataTableWithSearch: React.FC = () => {
-  const { searchTerm, setSearchTerm, searchField, setSearchField, filteredRows } = useSearch(initialRows);
+const DataTableWithSearch: React.FC<DataTableWithSearchProps> = ({ data }) => {
+  const { searchTerm, setSearchTerm, searchField, setSearchField, filteredRows } = useSearch(data);
 
   return (
     <Box>
@@ -48,4 +52,3 @@ const DataTableWithSearch: React.FC = () => {
 };
 
 export default DataTableWithSearch;
-
