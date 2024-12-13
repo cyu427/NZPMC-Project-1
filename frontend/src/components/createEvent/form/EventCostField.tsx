@@ -19,8 +19,8 @@ const EventCostField: React.FC<{
           margin="normal"
           InputProps={{
             inputProps: {
-            step: "0.01",  // Allow two decimal places
-            min: "0" }      // Prevent negative numbers
+            step: "0.01", 
+            min: "0" }     
           }}
           onChange={(e) => {
             const value = parseFloat(parseFloat(e.target.value).toFixed(2));
