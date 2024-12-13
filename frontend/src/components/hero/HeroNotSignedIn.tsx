@@ -1,7 +1,5 @@
 import { Box, Container, Dialog, styled, Typography } from "@mui/material"
 import AuthorisationButton from "../buttons/AuthorisationButton"
-import useAuth from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SignInProvider } from "../../provider/SigninProvider";
 import SigninPageDialog from "../signIn/SigninPageDialog";
