@@ -14,6 +14,11 @@ export const signInSchema = z.object({
   password: z.string().min(8),
 })
 
+export const accountWithIdSchema = accountSchema.extend({
+  id: z.string(),
+})
+
 export type AccountFormData = z.infer<typeof accountSchema> 
 export type SignInData = z.infer<typeof signInSchema> 
+export type AccountWithId = z.infer<typeof accountWithIdSchema>
 

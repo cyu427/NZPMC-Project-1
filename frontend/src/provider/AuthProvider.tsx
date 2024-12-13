@@ -1,8 +1,7 @@
-import React, { useState, ReactNode, useEffect } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import { useMutation } from '@tanstack/react-query';
 import { signIn, signOut } from '../queries/auth';
-import { useNavigate } from 'react-router-dom';
 import { SignInFormData } from '../schema/formValidation/signinSchema';
 
 interface AuthProviderProps {
@@ -21,8 +20,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   // );
 
   const [userId, setUserId] = useState<string | null>(null);
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Load initial state from sessionStorage
   useEffect(() => {
@@ -47,9 +44,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     },
     onError: (error) => {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        console.log(error.message);
       } else {
-        setErrorMessage('An error occurred during login.');
+        console.log('An error occurred during login.');
       }
     },
   });
@@ -66,9 +63,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     },
     onError: (error) => {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        console.log(error.message);
       } else {
-        setErrorMessage('An error occurred during signout.');
+        console.log('An error occurred during signout.');
       }
     },
   });

@@ -4,9 +4,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   IconButton,
-  Button,
   Tabs,
   Tab,
   Box,
@@ -15,9 +13,11 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { EventDetailsContent } from './EventDetailsContent';
-import { RegistrationContent } from './RegistrationContent';
+import { EventParticipants } from './EventParticipant';
 import { EventDetailsProps, EventDetails } from './eventTypes';
 import { getEvent } from '../../queries/event';
+import { AccountWithId } from '../../schema/apiDataValidation/newAccountSchema';
+import { getUserByEvent } from '../../queries/admin/adminUser';
 
 export function EventDetailsDialog({
   eventId,
@@ -36,6 +36,11 @@ export function EventDetailsDialog({
   const { data: event, isLoading, isError, isSuccess } = useQuery<EventDetails, Error>({
     queryKey: ['event', eventId],
     queryFn: () => getEvent(eventId),
+  });
+
+  const { data: eventParticipants } = useQuery<AccountWithId[], Error>({
+    queryKey: ['eventParticipants', eventId],
+    queryFn: () => getUserByEvent(eventId),
   });
 
   if (isLoading) {
@@ -62,6 +67,8 @@ export function EventDetailsDialog({
     console.log("Event data:", event); // Log the event data to the console
   }
 
+  console.log("Event participants:", eventParticipants); // Log the event participants to the console
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
       <DialogTitle sx={{ position: 'relative' }}>
@@ -87,13 +94,8 @@ export function EventDetailsDialog({
             onJoin={onJoin}
           />
         )}
-        {admin && activeTab === 1 && <RegistrationContent />}
+        {admin && activeTab === 1 && <EventParticipants data={eventParticipants || []} />}
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Close
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

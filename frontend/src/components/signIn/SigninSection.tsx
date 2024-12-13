@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, TextField, Dialog, CircularProgress, Alert } from '@mui/material';
@@ -15,7 +15,7 @@ export const SigninSection: React.FC = () => {
   const { setPage } = useSigninContext();
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { login } = useAuth();
+  const { login, userId } = useAuth();
 
   const navigate = useNavigate();
 
@@ -27,11 +27,29 @@ export const SigninSection: React.FC = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  const onLoginSubmit = (data: SignInFormData) => {
+  // const onLoginSubmit = (data: SignInFormData) => {
+  //     console.log('Login data:', data);
+  //     login(data);
+  //     navigate('/signed-in');
+  //   };
+
+  const onLoginSubmit = async (data: SignInFormData) => {
+    try {
       console.log('Login data:', data);
-      login(data);
-      navigate('/signed-in');
-    };
+      await login(data); // Wait for login to complete
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Handle error (e.g., show an error message to the user)
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      console.log('userId at home:', userId);
+      navigate('/signed-in'); // Navigate only when userId is updated
+    }
+  }, [userId, navigate]); // Run when userId changes
+
   
 
   const handleOpenResetDialog = () => {

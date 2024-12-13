@@ -6,6 +6,7 @@ import DataTableWithSearch from "../../components/table/DataTableWithSearch";
 import { useQuery } from "@tanstack/react-query";
 import { getAllEvents } from "../../queries/event";
 import { getAllUsers } from "../../queries/admin/adminUser";
+import { AccountWithId } from "../../schema/apiDataValidation/newAccountSchema";
 
 interface Event {
   id: string;
@@ -21,7 +22,7 @@ const AdminPage: React.FC = () => {
     queryFn: getAllEvents,
   });
 
-  const { data: users } = useQuery<Event[], Error>({
+  const { data: users } = useQuery<AccountWithId[], Error>({
     queryKey: ['allUsers'],
     queryFn: getAllUsers,
   });

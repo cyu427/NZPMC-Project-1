@@ -37,8 +37,7 @@ const DataTableWithSearch: React.FC<DataTableWithSearchProps> = ({ data }) => {
         searchField={searchField}
         setSearchField={setSearchField}
       />
-      
-      <Paper sx={{ height: 400, width: '1200px' }}>
+      <Paper sx={{ height: 400, width: '1200px'}}>
         <DataGrid
           rows={filteredRows}
           columns={columns}

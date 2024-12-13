@@ -21,7 +21,7 @@ export const getUserByEvent = async (req: Request, res: Response): Promise<void>
         const { eventId } = req.params;
 
         // Find user by event ID
-        const user = await User.findOne({ event: eventId });
+        const user = await User.find({ event: eventId });
 
         if (!user) {
             res.status(404).json({ message: 'User not found.' });

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllEvents, getEvent, joinEvent } from '../controller/eventController';
+import { getAllEvents, getEvent, getEventByUser, joinEvent } from '../controller/eventController';
 
 const eventRoute = Router();
 
@@ -8,6 +8,9 @@ eventRoute.route('/')
 
 eventRoute.route('/:eventId')
     .get(getEvent);
+
+eventRoute.route('/user/:userId')
+    .get(getEventByUser);
 
 eventRoute.route('/:eventId/:userId')
     .post(joinEvent);
