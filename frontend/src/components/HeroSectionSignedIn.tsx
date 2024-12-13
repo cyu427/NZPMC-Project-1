@@ -14,11 +14,8 @@ const StyledBox = styled(Box)({
 });
 
 export default function HeroSectionSignedIn() {
-  // const isSignedIn = false; // Replace this with the actual logic to check user authentication.
-
   return (
     <StyledBox>
-      {/* {isSignedIn ? <HeroSignedIn /> : <HeroNotSignedIn />} */}
       <HeroSignedIn />
     </StyledBox>
   );

@@ -20,9 +20,6 @@ const ButtonContainer = styled(Box)({
 })
 
 export default function HeroNotSignedIn() {
-    const { isLoggedIn, logout, userId } = useAuth();
-    const navigate = useNavigate();
-
     const [open, setOpen] = useState(false);
     const [dialogType, setDialogType] = useState<'signIn' | 'register' | null>(null);
 

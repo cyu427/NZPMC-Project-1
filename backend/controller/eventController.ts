@@ -93,11 +93,6 @@ export const getEventByUser = async (req: Request, res: Response): Promise<void>
         // Find event by user ID
         const event = await Event.find({ users: userId });
 
-        // if (!event) {
-        //     res.status(404).json({ message: 'Event not found.' });
-        //     return;
-        // }
-
         // Return the event
         res.status(200).json({
             message: 'Event fetched successfully.',
@@ -115,11 +110,6 @@ export const getEventsUserNotJoined = async (req: Request, res: Response): Promi
 
         // Find event by user ID
         const event = await Event.find({ users: { $ne: userId } });
-
-        // if (!event) {
-        //     res.status(404).json({ message: 'Event not found.' });
-        //     return;
-        // }
 
         // Return the event
         res.status(200).json({
