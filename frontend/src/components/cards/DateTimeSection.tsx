@@ -3,18 +3,16 @@ import { Box } from '@mui/material';
 import CalendarIcon from '../icons/CalendarIcon';
 
 interface DateTimeSectionProps {
-    dateTime?: Date | string; // Allow both Date and string types
+    dateTime?: Date | string; 
 }
 
 const DateTimeSection: React.FC<DateTimeSectionProps> = ({ dateTime }) => {
-    // Ensure we have a valid Date object
     const validDateTime = dateTime instanceof Date 
         ? dateTime 
         : dateTime 
             ? new Date(dateTime) 
             : null;
-
-    // Format the date if it's valid
+            
     const formattedDateTime = validDateTime 
         ? new Intl.DateTimeFormat('en-US', {
             weekday: 'short',
