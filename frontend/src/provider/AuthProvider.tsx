@@ -14,6 +14,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   // );
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  console.log('Admin:', isAdmin);
 
   // const [userId, setUserId] = useState<string | null>(
   //   () => localStorage.getItem('userId')
@@ -39,6 +41,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       console.log('Login success:', data);
       setIsLoggedIn(true);
       setUserId(data.userId);
+      if (data.email === 'admin') {
+        setIsAdmin(true);
+      }
       sessionStorage.setItem('isLoggedIn', 'true');
       sessionStorage.setItem('userId', data.userId);
     },
@@ -72,18 +77,20 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = (data: SignInFormData) => {
     signInMutation.mutate(data);
+    if (data.email === 'admin' && data.password === 'admin') {
+      setIsAdmin(true);
+    }
   };
 
   const logout = (userId: string) => {
-    // setIsLoggedIn(false);
-    // setUserId(null);
-    // localStorage.setItem('isLoggedIn', 'false');
-    // localStorage.removeItem('userId');
     signOutMutation.mutate(userId);
+    if (isAdmin) {
+      setIsAdmin(false);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, isAdmin, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

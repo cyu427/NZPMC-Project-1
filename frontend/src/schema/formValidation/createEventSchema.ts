@@ -16,7 +16,12 @@ export const createEventSchema = z.object({
       return parseFloat(val.toFixed(2));
     }),
     description: z.string({ required_error: "Message is required" }).min(1, { message: "Required" }).trim(),
-
 })
 
+export const editEventSchema = createEventSchema.extend({
+  id: z.string(),
+})
+
+
 export type CreateEventSchemaFormData = z.infer<typeof createEventSchema>
+export type EditEventSchemaFormData = z.infer<typeof editEventSchema>

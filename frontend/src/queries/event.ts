@@ -11,3 +11,6 @@ export const getEvent = (eventId: string) =>
 
 export const getEventByUser = (userId: string) =>
   axios.get(`http://localhost:3001/event/user/${userId}`).then(res => res.data.event);
+
+export const getEventsUserNotJoined = (userId: string) =>
+  axios.get(`http://localhost:3001/event/user/notJoined/${userId}`).then(res => res.data.event);

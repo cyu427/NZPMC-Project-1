@@ -1,13 +1,11 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, } from "@mui/material";
 import Navigation from "../../components/Navigation";
 import EventSection from "../../components/EventSection/EventSection";
 import Footer from "../../components/footer/Footer";
 import HeroSectionSignedIn from "../../components/HeroSectionSignedIn";
-import { getAllEvents, getEventByUser } from "../../queries/event";
+import { getEventByUser, getEventsUserNotJoined } from "../../queries/event";
 import { useQuery } from "@tanstack/react-query";
-import HeroSectionNotSignedIn from "../../components/HeroSectionNotSignedIn";
 import useAuth from "../../hooks/useAuth";
-import { useEffect, useState } from "react";
 
 interface Event {
   id: string;
@@ -23,24 +21,18 @@ const LandingPageSignedIn: React.FC = () => {
 
   console.log('userId:', userId);
 
-  const { data: events } = useQuery<Event[], Error>({
-    queryKey: ['allEvents'],
-    queryFn: getAllEvents,
+  const { data: eventNotJoinedByUser, } = useQuery<Event[], Error>({
+    queryKey: ['userEventsNotJoined', userId],
+    queryFn: () => getEventsUserNotJoined(userId!),
+    enabled: !!userId
   });
 
-  const { data: eventByUser, isError, isSuccess } = useQuery<Event[], Error>({
+  const { data: eventByUser } = useQuery<Event[], Error>({
     queryKey: ['userEvents', userId],
     queryFn: () => getEventByUser(userId!),
     enabled: !!userId
   });
 
-  if (isError) {
-    console.log('eventByUser: not good',);
-  }
-
-  if (isSuccess) {
-    console.log('eventByUser: good', eventByUser);
-  }
 
   return (
     <Box 
@@ -61,7 +53,7 @@ const LandingPageSignedIn: React.FC = () => {
           width: '100%', // Ensure it takes full width up to max-width
         }}
       > 
-        <EventSection events={events || []} title="Upcoming Events" /> 
+        <EventSection events={eventNotJoinedByUser || []} title="Upcoming Events (Not Joined)" /> 
       </Box>
       <Box 
         sx={{ 

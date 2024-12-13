@@ -1,10 +1,15 @@
-import React from 'react';
-import { Grid, Typography, Box, Button, styled } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Typography, Box, Button, styled, Dialog } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { EventDetails } from './eventTypes';
+import { useMutation } from '@tanstack/react-query';
+import useAuth from '../../hooks/useAuth';
+import { joinEvent } from '../../queries/event';
+import { SignInProvider } from '../../provider/SigninProvider';
+import SigninPageDialog from '../signIn/SigninPageDialog';
 
 const DetailItem = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -28,6 +33,13 @@ interface EventDetailsContentProps {
 }
 
 export function EventDetailsContent({ eventDetails, onJoin }: EventDetailsContentProps) {
+
+  const [signInDialogOpen, setSignInDialogOpen] = useState(false);
+
+  const handleSignInClose = () => {
+    setSignInDialogOpen(false);
+  };
+
   console.log("eventDetails:", eventDetails); // Log the event details to the console
 
   const parsedDate = new Date(eventDetails.dateTime);
@@ -51,8 +63,6 @@ export function EventDetailsContent({ eventDetails, onJoin }: EventDetailsConten
     hour12: true,
   }).format(parsedDate);
 
-  console.log('price:', eventDetails.price); // Log the formatted time to the console
-
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={6}>
@@ -75,10 +85,14 @@ export function EventDetailsContent({ eventDetails, onJoin }: EventDetailsConten
           <AttachMoneyIcon color="action" />
           <Typography variant="body2">{eventDetails.cost}</Typography>
         </DetailItem>
-        <JoinButton variant="contained" color="primary" onClick={onJoin}>
-          Join Event
-        </JoinButton>
       </Grid>
+
+      <Dialog open={signInDialogOpen} onClose={handleSignInClose} fullWidth maxWidth="sm">
+        <SignInProvider>
+          <SigninPageDialog onClose={handleSignInClose} />
+        </SignInProvider>
+      </Dialog>
+
     </Grid>
   );
 }

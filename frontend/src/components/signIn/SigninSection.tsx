@@ -45,8 +45,11 @@ export const SigninSection: React.FC = () => {
 
   useEffect(() => {
     if (userId) {
-      console.log('userId at home:', userId);
-      navigate('/signed-in'); // Navigate only when userId is updated
+      if (userId === '675bc566874f0341add0cd5b') {
+        navigate('/admin'); // Navigate only when admin is logged in
+      } else {
+        navigate('/signed-in'); // Navigate only when userId is
+      }
     }
   }, [userId, navigate]); // Run when userId changes
 

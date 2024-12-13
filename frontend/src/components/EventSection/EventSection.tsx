@@ -11,6 +11,8 @@ import { joinEvent } from '../../queries/event';
 import StandardButton from '../buttons/StandardButton';
 import CreateEventDialog from '../createEvent/CreateEventGeneralFields';
 import { EventDetailsDialog } from '../eventDetails/EventDetailsDialog';
+import EditEventDialog from '../createEvent/EditEventDialog';
+import { EditEventSchemaFormData } from '../../schema/formValidation/createEventSchema';
 
 interface Event {
   id: string;
@@ -18,6 +20,7 @@ interface Event {
   dateTime: Date;
   location: string;
   cost: string;
+  description: string;
 }
 
 interface EventsSectionProps {
@@ -26,38 +29,49 @@ interface EventsSectionProps {
 }
 
 const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
-  const { isLoggedIn, userId } = useAuth();
+  const { isLoggedIn, userId, isAdmin } = useAuth();
+  console.log('Admin:', isAdmin);
 
-  const joinEventMutation = useMutation({
-    mutationFn: ({ eventId, userId }: { eventId: string, userId: string }) => joinEvent(eventId, userId),
-    onSuccess: (data) => {
-      console.log('Event joined successfully:', data);
-    },
-    onError: (error) => {
-      console.error('Error joining event:', error);
-    },
-  });
-
+  // State management
   const [signInDialogOpen, setSignInDialogOpen] = useState(false);
   const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false);
+  const [editEventDialogOpen, setEditEventDialogOpen] = useState(false);
+  const [eventDetailsDialogOpen, setEventDetailsDialogOpen] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [event, setEvent] = useState<EditEventSchemaFormData | null>(null);
 
-  const handleSignInClose = () => {
-    setSignInDialogOpen(false);
+  const joinEventMutation = useMutation({
+    mutationFn: ({ eventId, userId }: { eventId: string; userId: string }) => joinEvent(eventId, userId),
+    onSuccess: (data) => {
+      window.location.reload();
+    },
+    onError: (error) => console.error('Error joining event:', error),
+  });
+
+  // Dialog handlers
+  const toggleDialog = (setter: React.Dispatch<React.SetStateAction<boolean>>, open: boolean) => () => setter(open);
+
+  // Event handlers
+  const handleJoin = (event: Event) => {
+    if (isAdmin) {
+      handleEditEventOpen(event);
+    } else if (isLoggedIn && userId) {
+      joinEventMutation.mutate({ eventId: event.id, userId });
+    } else {
+      toggleDialog(setSignInDialogOpen, true)();
+    }
   };
 
-  const handleCreateEventClose = () => {
-    setCreateEventDialogOpen(false);
+  const handleEditEventOpen = (event: Event) => {
+    setEvent(formatEventForEdit(event));
+    toggleDialog(setEditEventDialogOpen, true)();
   };
 
-  const handleSignIn = () => {
-    setSignInDialogOpen(true);
-  };
-
-  const handleCreateEventOpen = () => {
-    setCreateEventDialogOpen(true);
-  };
-
-  
+  const formatEventForEdit = (event: Event): EditEventSchemaFormData => ({
+    ...event,
+    dateTime: event.dateTime instanceof Date ? event.dateTime.toISOString() : new Date(event.dateTime).toISOString(),
+    cost: parseFloat(event.cost),
+  });
 
   const chunkEvents = (events: Event[], size: number) => {
     const chunks = [];
@@ -69,49 +83,21 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
 
   const eventChunks = chunkEvents(events, 4);
 
-  const handleJoin = (eventId: string) => {
-    if (isLoggedIn && userId) {
-      joinEventMutation.mutate({ eventId, userId });
-    } else {
-      handleSignIn();
-    }
-  }; 
-
-  //////////////////////////////////////////
-  const [eventDetailsDialogOpen, setEventDetailsDialogOpen] = useState(false);
-  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
-
-  const handleEventDetailsOpen = (eventId: string) => {
-    setSelectedEventId(eventId);
-    setEventDetailsDialogOpen(true);
-  };
-
-  const handleEventDetailsClose = () => {
-    setEventDetailsDialogOpen(false);
-    setSelectedEventId(null);
-  };
-
-
-
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Box sx={{ py: 4, px: 2, width: '100%' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography
-            variant="h5"
-            component="h2"
-            sx={{
-              fontWeight: 'bold',
-              color: 'text.primary',
-            }}
-          >
+          <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
             {title}
           </Typography>
-          <StandardButton label="Add Event" buttonColor="yellow" onClick={handleCreateEventOpen} />
+          {isAdmin && (
+            <StandardButton label="Add Event" buttonColor="yellow" onClick={toggleDialog(setCreateEventDialogOpen, true)} />
+          )}
         </Box>
+
         <Carousel
-          indicators={true}
-          navButtonsAlwaysVisible={true}
+          indicators
+          navButtonsAlwaysVisible
           autoPlay={false}
           NextIcon={<ArrowForwardIos sx={{ color: 'white' }} />}
           PrevIcon={<ArrowBackIos sx={{ color: 'white' }} />}
@@ -119,15 +105,11 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
             style: {
               backgroundColor: 'rgba(0, 0, 0, 0.5)',
               color: 'white',
-              margin: '0 0px',
               zIndex: 2,
             },
           }}
           navButtonsWrapperProps={{
-            style: {
-              top: '50%',
-              transform: 'translateY(-50%)',
-            },
+            style: { top: '50%', transform: 'translateY(-50%)' },
           }}
         >
           {eventChunks.map((chunk, index) => (
@@ -140,9 +122,14 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
                   location={event.location}
                   cost={event.cost}
                   primaryButtonLabel="More Info"
-                  secondaryButtonLabel={isLoggedIn ? "Join" : "Sign in to Join"}
-                  onClick={() => handleJoin(event.id)}
-                  onClickMoreInfo={() => handleEventDetailsOpen(event.id)}
+                  secondaryButtonLabel={
+                    !isLoggedIn ? "Sign in to Join" : isAdmin ? "Edit" : "Join"
+                  }
+                  onClick={() => handleJoin(event)}
+                  onClickMoreInfo={() => {
+                    setSelectedEventId(event.id);
+                    toggleDialog(setEventDetailsDialogOpen, true)();
+                  }}
                 />
               ))}
             </Box>
@@ -150,22 +137,28 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, title }) => {
         </Carousel>
       </Box>
 
-      <Dialog open={signInDialogOpen} onClose={handleSignInClose} fullWidth maxWidth="sm">
+      {/* Dialogs */}
+      <Dialog open={signInDialogOpen} onClose={toggleDialog(setSignInDialogOpen, false)} fullWidth maxWidth="sm">
         <SignInProvider>
-          <SigninPageDialog onClose={handleSignInClose} />
+          <SigninPageDialog onClose={toggleDialog(setSignInDialogOpen, false)} />
         </SignInProvider>
       </Dialog>
 
-      <Dialog open={createEventDialogOpen} onClose={handleCreateEventClose} fullWidth maxWidth="md">
-        <CreateEventDialog open={createEventDialogOpen} onClose={handleCreateEventClose} />
+      <Dialog open={createEventDialogOpen} onClose={toggleDialog(setCreateEventDialogOpen, false)} fullWidth maxWidth="md">
+        <CreateEventDialog open={createEventDialogOpen} onClose={toggleDialog(setCreateEventDialogOpen, false)} />
+      </Dialog>
+
+      <Dialog open={editEventDialogOpen} onClose={toggleDialog(setEditEventDialogOpen, false)} fullWidth maxWidth="md">
+        {event && (
+          <EditEventDialog open={editEventDialogOpen} onClose={toggleDialog(setEditEventDialogOpen, false)} eventData={event} />
+        )}
       </Dialog>
 
       <EventDetailsDialog
         eventId={selectedEventId!}
         open={eventDetailsDialogOpen}
-        onClose={handleEventDetailsClose}
-        //onJoin={handleJoinEvent}
-        admin={true}
+        onClose={toggleDialog(setEventDetailsDialogOpen, false)}
+        admin={isAdmin}
       />
     </Box>
   );

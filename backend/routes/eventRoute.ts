@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllEvents, getEvent, getEventByUser, joinEvent } from '../controller/eventController';
+import { getAllEvents, getEvent, getEventByUser, getEventsUserNotJoined, joinEvent } from '../controller/eventController';
 
 const eventRoute = Router();
 
@@ -14,5 +14,8 @@ eventRoute.route('/user/:userId')
 
 eventRoute.route('/:eventId/:userId')
     .post(joinEvent);
+
+eventRoute.route('/user/notJoined/:userId')
+    .get(getEventsUserNotJoined);
 
 export default eventRoute;

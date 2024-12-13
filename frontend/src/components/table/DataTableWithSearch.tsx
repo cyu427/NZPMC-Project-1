@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Box, Paper } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useSearch } from '../../hooks/useSearch';
-import { columns } from './columns';
+import StandardButton from '../buttons/StandardButton';
+import JoinedEventDialog from './JoinedEventDialog';
 import { SearchInputs } from './SearchInputs';
+import { getEventByUser } from '../../queries/event';
+import { useQuery } from '@tanstack/react-query';
 
 interface DataTableWithSearchProps {
   data: Array<{
@@ -28,6 +31,45 @@ const DATA_GRID_SX = {
 
 const DataTableWithSearch: React.FC<DataTableWithSearchProps> = ({ data }) => {
   const { searchTerm, setSearchTerm, searchField, setSearchField, filteredRows } = useSearch(data);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+
+  const { data: selectedEvents } = useQuery<Event[], Error>({
+    queryKey: ['userEvents', selectedUserId],
+    queryFn: () => getEventByUser(selectedUserId!),
+    enabled: !!selectedUserId
+  });
+
+  const handleViewClick = useCallback((id: string) => {
+    setSelectedUserId(id);
+    setDialogOpen(true);
+  }, []);
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setSelectedUserId(null);
+  };
+
+  const columns: GridColDef[] = [
+    { field: 'firstName', headerName: 'First name', headerClassName: 'headerColours', width: 190 },
+    { field: 'lastName', headerName: 'Last name', headerClassName: 'headerColours', width: 195 },
+    { field: 'email', headerName: 'Email', headerClassName: 'headerColours', width: 270 },
+    { field: 'homeSchool', headerName: 'Home School', headerClassName: 'headerColours', width: 120 },
+    { field: 'school', headerName: 'School', headerClassName: 'headerColours', width: 270 },
+    { 
+      field: 'view', 
+      headerName: 'Joined Events', 
+      headerClassName: 'headerColours',
+      width: 155,
+      renderCell: (params: GridRenderCellParams) => (
+        <StandardButton
+          label="View"
+          buttonColor="yellow"
+          onClick={() => handleViewClick(params.row.id)}
+        />
+      ),
+    },
+  ];
 
   return (
     <Box>
@@ -46,8 +88,16 @@ const DataTableWithSearch: React.FC<DataTableWithSearchProps> = ({ data }) => {
           sx={DATA_GRID_SX}
         />
       </Paper>
+      <JoinedEventDialog
+        events={selectedEvents || []}
+        title="Joined Events"
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+      />
     </Box>
   );
 };
 
 export default DataTableWithSearch;
+
+

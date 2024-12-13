@@ -3,6 +3,7 @@ import { SignInFormData } from '../schema/formValidation/signinSchema';
 
 interface AuthContextType {
   isLoggedIn: boolean;
+  isAdmin: boolean;
   userId: string | null;
   login: (data: SignInFormData) => void;
   logout: (id: string) => void;
