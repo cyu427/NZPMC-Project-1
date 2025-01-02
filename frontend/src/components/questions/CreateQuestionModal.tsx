@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQuestionFormData, createQuestionSchema } from '../../schema/formValidation/questionSchema';
 import { Button, TextField, MenuItem, Select, FormHelperText } from '@mui/material';
 import { createQuestionMapping } from '../../utils/CreateQuestionMapper';
+import { useCreateQuestion } from '../../queries/questions/useCreateQuestion';
 
 interface CreateQuestionModalProps {
     onClose: () => void; // Prop to handle closing the modal
@@ -34,9 +35,12 @@ const CreateQuestionModal: React.FC<CreateQuestionModalProps> = ({ onClose }) =>
     resolver: zodResolver(createQuestionSchema),
   });
 
+  const { mutate, isLoading, isError, error, isSuccess } = useCreateQuestion();
+
   const onSubmit = (data: CreateQuestionFormData) => {
     const questionToCreate = createQuestionMapping(data);
     console.log(questionToCreate);
+    mutate(questionToCreate);
     onClose();
 };
 

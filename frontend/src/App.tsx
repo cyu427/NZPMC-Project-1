@@ -1,18 +1,21 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
-import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import LandingPageSignedIn from "./pages/LandingPageSignedIn/LandingPageSignedIn";
 import AuthProvider from "./provider/AuthProvider";
-import AdminDataTable from "./components/questions/AdminDataTable";
 import { Button } from "@mui/material";
 import { GridRenderCellParams } from "@mui/x-data-grid";
 import ButtonPage from "./components/questions/ButtonPage";
-import QuestionDetailModal from "./components/questions/QuestionDetailModal";
-import CreateQuestionModal from "./components/questions/CreateQuestionModal";
 import QuestionPage from "./pages/QuestionPage";
-import QuestionSection from "./components/questions/QuestionSection";
+import ScrollableTabs from "./components/competition/ScrollableTabs";
+import CompetitionPage from "./pages/CompetitionPage";
+import ViewCompetitionPage from "./pages/ViewCompetitionPage";
+import CompetitionAttempt from "./components/competition/CompetitionAttempt";
+import { AnswerProvider } from "./provider/AnswerProvider";
+import StartCompetitionPage from "./pages/StartCompetitionPage";
+import QuestionToCompetitionModal from "./components/competition/QuestionToCompetitionModal";
 
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
@@ -63,6 +66,16 @@ export default function App() {
     { id: 10, questions: "What are props in React?" },
   ];
 
+  const competitionData = {
+    title: '1 + 1 = ?',
+    options: [
+      { text: '2', isCorrect: true },
+      { text: '3', isCorrect: false },
+      { text: '4', isCorrect: false },
+      { text: '5', isCorrect: false },
+    ],
+  };
+
 
   const handleView = (row: { id: number; questions: string }) => {
     console.log(`Viewing row with ID: ${row.id}`);
@@ -95,6 +108,10 @@ export default function App() {
       ),
     },
     { path: "/admin/question", element: (<QuestionPage />), },
+    { path: "/admin/competition", element: (<CompetitionPage />), },
+    { path: "/admin/competition/:id", element: <AnswerProvider><ViewCompetitionPage /></AnswerProvider> },
+    { path: "/admin/scroll", element: (<AnswerProvider> <StartCompetitionPage /> </AnswerProvider>), },
+
 
   ]);
 

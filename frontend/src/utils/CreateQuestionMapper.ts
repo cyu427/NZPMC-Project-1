@@ -3,6 +3,7 @@ import { CreateQuestionFormData } from "../schema/formValidation/questionSchema"
 export interface Option {
     text: string;
     isCorrect: boolean;
+    id?: number;
 }
 
 export interface QuestionPayload {

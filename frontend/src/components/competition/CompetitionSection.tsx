@@ -1,25 +1,26 @@
 import { Box, Button, } from "@mui/material";
-import AdminDataTable from "./AdminDataTable";
 import { GridRenderCellParams } from "@mui/x-data-grid";
 import { useSearch } from "../../hooks/useSearch";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import CreateQuestionModal from "./CreateQuestionModal";
+import CreateQuestionModal from "./CreateCompetitionModal";
 import { set } from "zod";
-import QuestionDetailModal from "./QuestionDetailModal";
-import { useGetAllQuestions } from "../../queries/questions/useGetAllQuestions";
+import CreateCompetitionModal from "./CreateCompetitionModal";
+import AdminDataTable from "../questions/AdminDataTable";
+import { useGetAllCompetitions } from "../../queries/competition/useGetAllCompetition";
+import QuestionToCompetitionModal from "./QuestionToCompetitionModal";
 
-const QuestionSection: React.FC = () => {
-    const [isCreateQuestionModalOpen, setIsCreateQuestionModalOpen] = useState(false);
+const CompetitionSection: React.FC = () => {
+    const [isCreateCompetitionModalOpen, setIsCreateCompetitionModalOpen] = useState(false);
     const [isViewOpen, setIsViewOpen] = useState(false);
     const [questionId, setQuestionId] = useState<string>('');
     const location = useLocation();
 
     const columns = [
-        { field: 'title', headerName: 'Questions', width: 950 },
+        { field: 'title', headerName: 'Competition', width: 950 },
         {
           field: 'details',
-          headerName: 'View',
+          headerName: 'Details',
           width: 125,
           renderCell: (params: GridRenderCellParams) => (
             <Button
@@ -39,7 +40,7 @@ const QuestionSection: React.FC = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleDelete()}
+              onClick={() => handleDelete(params.row)}
               sx = {{backgroundColor: 'red'}}
             >
               Delete
@@ -47,11 +48,11 @@ const QuestionSection: React.FC = () => {
           ),
         },
     ];
-
-    const { data, error, isLoading, refetch } = useGetAllQuestions();
+    
+    const { data, error, isLoading, refetch } = useGetAllCompetitions();
     
     // const rows = [
-    //     { id: "1", title: "What is React?" },
+    //     { id: "1", title: "Competition 1" },
     //     { id: "2", title: "How does React work?" },
     //     { id: "3", title: "What is a state in React?" },
     //     { id: "4", title: "Explain useState hook." },
@@ -65,14 +66,13 @@ const QuestionSection: React.FC = () => {
 
 
       useEffect(() => {
-        if (!isCreateQuestionModalOpen) {
-          console.log("isCreateQuestionModalOpen is set to false");
+        if (!isCreateCompetitionModalOpen) {
+          console.log("isCreateCompetitionModalOpen is set to false");
           setTimeout(() => {
             refetch();
           }, 100);
-      
         }
-      }, [isCreateQuestionModalOpen, location.pathname, refetch]);
+      }, [isCreateCompetitionModalOpen, location.pathname]);
       
       useEffect(() => {
         if (!isViewOpen) {
@@ -82,23 +82,22 @@ const QuestionSection: React.FC = () => {
 
     const navigate = useNavigate(); 
 
-    const handleDelete = () => {
+    const handleDelete = (row: { id: number }) => {
         console.log('Delete Question button clicked');
         navigate('/button');
     }
 
-    const handleAddQuestion = () => {
-        setIsCreateQuestionModalOpen(true);
+    const handleAddCompetition = () => {
+        setIsCreateCompetitionModalOpen(true);
     }
 
-    const handleCloseAddQuestionModal = () => {
-        setIsCreateQuestionModalOpen(false);
+    const handleCloseCompetition = () => {
+        setIsCreateCompetitionModalOpen(false);
     }
 
-    const handleView = (row: { id: number }) => {
+    const handleView = (row: { id: string }) => {
         console.log(`Viewing row with ID: ${row.id}`);
-        setQuestionId(row.id);
-        setIsViewOpen(true);
+        navigate(`/admin/competition/${row.id}`);
         // Implement additional logic to handle the view action here
     };
 
@@ -109,16 +108,16 @@ const QuestionSection: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'flex-end', width: '1200px', marginBottom: '20px' }}>
-            <Button variant="contained" color="primary" onClick={() => handleAddQuestion()}> Add Question </Button>
+            <Button variant="contained" color="primary" onClick={() => handleAddCompetition()}> Add Competition </Button>
         </div>
 
-        {isCreateQuestionModalOpen && <CreateQuestionModal onClose={handleCloseAddQuestionModal} />}
-        {isViewOpen && <QuestionDetailModal onClose={handleCloseViewModal} questionId={questionId} />}
+        {isCreateCompetitionModalOpen && <CreateCompetitionModal onClose={handleCloseCompetition} />}
+        {/* {isViewOpen && <QuestionDetailModal onClose={handleCloseViewModal} questionId={questionId} />} */}
 
         <AdminDataTable columns={columns} rows={data} height={630} width={1200}/>
     </div>
   );
 };
 
-export default QuestionSection;
+export default CompetitionSection;
 
