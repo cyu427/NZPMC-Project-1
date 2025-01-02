@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AdminDataTable from './AdminDataTable';
+import { useGetQuestion } from '../../queries/questions/useGetQuestion';
+import { Option } from '../../utils/CreateQuestionMapper';
 
 interface QuestionDetailModalProps {
   onClose: () => void; // Prop to handle closing the modal
@@ -21,34 +23,55 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
 const QuestionDetailModal: React.FC<QuestionDetailModalProps> = ({ onClose, questionId }) => {
 
-  const data = {
-    "question": "What is the capital of New Zealand?",
-    "options": [
-      {
-        "id": 1,
-        "text": "Wellington",
-        "isCorrect": true
-      },
-      {
-        "id": 2,
-        "text": "Auckland",
-        "isCorrect": false
-      },
-      {
-        "id": 3,
-        "text": "Christchurch",
-        "isCorrect": false
-      },
-      {
-        "id": 4,
-        "text": "Dunedin",
-        "isCorrect": false
-      }
-    ]
+  const { data, error, isLoading, refetch } = useGetQuestion(questionId);
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
+  
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (data) {
+    data.options.forEach((option : Option, index : number) => {
+    option.id = index + 1;
+  });
+  console.log(data);
+  }
+  // data.options.forEach((option : Option, index : number) => {
+  //   option.id = index + 1;
+  // });
+  //console.log(JSON.stringify(data, null, 2));
+  
+
+
+  // const data = {
+  //   "question": "What is the capital of New Zealand?",
+  //   "options": [
+  //     {
+  //       "id": 1,
+  //       "text": "Wellington",
+  //       "isCorrect": true
+  //     },
+  //     {
+  //       "id": 2,
+  //       "text": "Auckland",
+  //       "isCorrect": false
+  //     },
+  //     {
+  //       "id": 3,
+  //       "text": "Christchurch",
+  //       "isCorrect": false
+  //     },
+  //     {
+  //       "id": 4,
+  //       "text": "Dunedin",
+  //       "isCorrect": false
+  //     }
+  //   ]
+  // }
 
   const columns = [
     { field: 'text', headerName: 'Options', width: 350 },
@@ -65,9 +88,9 @@ const QuestionDetailModal: React.FC<QuestionDetailModalProps> = ({ onClose, ques
     console.log('Delete Question button clicked');
   };
 
-  useEffect(() => {
-    console.log("Modal Question Id: " + questionId);
-  }, [questionId]); 
+  // useEffect(() => {
+  //   console.log("Modal Question Id: " + questionId);
+  // }, [questionId]); 
 
 
   return (
