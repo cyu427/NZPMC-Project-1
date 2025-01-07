@@ -5,6 +5,7 @@ import Footer from "../../components/footer/Footer";
 import HeroSectionNotSignedIn from "../../components/HeroSectionNotSignedIn";
 import { getAllEvents } from "../../queries/event";
 import { useQuery } from "@tanstack/react-query";
+import { useGetAllEvents } from "../../queries/event/useGetAllEvent";
 
 interface Event {
   id: string;
@@ -15,10 +16,9 @@ interface Event {
 }
 
 const LandingPage: React.FC = () => {
-  const { data: events } = useQuery<Event[], Error>({
-    queryKey: ['allEvents'],
-    queryFn: getAllEvents,
-  });
+
+  const { data, error, isLoading } = useGetAllEvents();
+  console.log(data);
 
     return (
         <Box 
@@ -39,7 +39,7 @@ const LandingPage: React.FC = () => {
                 width: '100%', // Ensure it takes full width up to max-width
               }}
             > 
-              <EventSection events={events || []} title="Upcoming Events" /> 
+              <EventSection events={data || []} title="Upcoming Events" /> 
             </Box>
             <Footer />
         </Box>
